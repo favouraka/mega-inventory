@@ -19,7 +19,8 @@ use App\Livewire\Pages\Auth\Product\Create;
 */
 
 Route::get('/', function () {
-    return view('pages.index');
+    // return view('pages.index');
+    return redirect()->route('login');
 });
 
 
