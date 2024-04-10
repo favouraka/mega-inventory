@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\ProductSeeder;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Store;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +16,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Store::factory(5)->create();
         //
-        User::factory(12)->create();
+        User::factory(12)->create([
+            'store_id' => Store::inRandomOrder()->first(),
+        ]);
         // 
         User::factory()->create([
             'username' => 'administrator',
+            'store_id' => Store::inRandomOrder()->first(),
         ]);
 
         Category::factory(12)->create();

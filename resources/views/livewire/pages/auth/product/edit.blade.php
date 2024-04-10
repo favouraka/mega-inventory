@@ -1,13 +1,13 @@
 <div class="space-y-4">
     <header class="flex flex-col-reverse items-center justify-between gap-4 p-4 rounded-md shadow-sm md:flex-row">
-        <h1 class="text-4xl font-extralight">Create New Product</h1>    
+        <h1 class="text-4xl font-extralight">Edit Product</h1>    
 
         <nav class="inline-block p-2 px-3 space-x-1 text-sm rounded-lg bg-slate-50">
             <a class="text-neutral-400" href="{{route('dashboard.home')}}">Dashboard</a>
             <span class="text-slate-300">|</span>
             <a class="text-neutral-400" href="{{route('dashboard.product.index')}}">Products</a>
             <span class="text-slate-300">|</span>
-            <span>Create New Product</span>
+            <span>Edit Product</span>
         </nav>
     </header>
     {{-- body --}}
@@ -43,10 +43,14 @@
                     @foreach ($this->images as $key => $item)
                         <div 
                             x-bind:style="{
-                                backgroundImage: `url('{{$item->temporaryUrl()}}')`,
+                                backgroundImage: `url('{{ strpos($item->path, 'http') === 0 ? $item->path : asset('storage/'.$item->path)}}')`,
                             }"
                             class="relative bg-center bg-cover rounded-lg size-20">
-                            <button wire:click="removeImage({{$key}})" class="absolute p-1 px-2 text-sm text-red-500 border border-red-600 rounded-full bg-white/70 -top-2 -right-2">&times;</button>
+                            <button x-on:click="() => {
+                                confirm('Are you sure you want to delete this image?\nThis action cannot be reversed')  &&
+                                $wire.removeImage({{$key}});
+                                }" 
+                                class="absolute p-1 px-2 text-sm text-red-500 border border-red-600 rounded-full bg-white/70 -top-2 -right-2">&times;</button>
                         </div>
                     @endforeach
                     <div 

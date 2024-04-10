@@ -20,8 +20,8 @@ class ProductImageFactory extends Factory
     {
         return [
             //
-            'alt'=> fake()->sentence(4),
-            'path' => UploadedFile::fake()->create('image.jpg')->size(1024)
+            'alt' => $this->faker->sentence(4),
+            'path' => 'https://placehold.co/512x512/orange/white',
         ];
     }
 }

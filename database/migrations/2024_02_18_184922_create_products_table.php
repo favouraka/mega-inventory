@@ -22,6 +22,14 @@ return new class extends Migration
             $table->unsignedInteger('height');
             $table->unsignedInteger('upc_code')->nullable();
             $table->string('sku_code')->nullable();
+            $table->string('brand')->nullable();
+            $table->string('model')->nullable();
+            $table->string('size')->nullable();
+            $table->string('color')->nullable()->default('NIL');
+            $table->string('batch')->nullable();
+            $table->string('manufacturer')->nullable();
+            $table->date('production_date')->nullable();
+            $table->date('expiry_date')->nullable();
             $table->decimal('price_cfa',8,2);
             $table->decimal('price_ngn',8,2);
             $table->timestamps();

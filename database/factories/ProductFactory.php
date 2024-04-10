@@ -30,6 +30,14 @@ class ProductFactory extends Factory
             'sku_code' => $this->faker->ean13(),
             'price_ngn' => $this->faker->randomNumber(5, true),
             'price_cfa' => $this->faker->randomNumber(5, true),
+            'batch' => $this->faker->randomNumber(4),
+            'model' => $this->faker->word(),
+            'color' => $this->faker->colorName(),
+            'size' => $this->faker->randomElement(['S', 'M', 'L', 'XL']),
+            'brand' => $this->faker->company(),
+            'expiry_date' => $this->faker->dateTimeBetween('now', '+2 years')->format('Y-m-d'),
+            'production_date' => $this->faker->dateTimeBetween('-5 years', 'now')->format('Y-m-d'),
+            'manufacturer' => $this->faker->company()
         ];
     }
 }

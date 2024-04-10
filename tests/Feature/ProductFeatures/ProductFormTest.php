@@ -190,9 +190,38 @@ class ProductFormTest extends TestCase
                 // price cfa
                 ->set('price_cfa', $new_product['price_cfa'])
                 ->assertSet('price_cfa', $new_product['price_cfa'])
-                ->call('save');
+                // set manufacturer
+                ->set('manufacturer', $new_product['manufacturer'])
+                ->assertSet('manufacturer', $new_product['manufacturer'])
+                // set production date
+                ->set('production_date', $new_product['production_date'])
+                ->assertSet('production_date', $new_product['production_date'])
+                // set batch
+                ->set('batch', $new_product['batch'])
+                ->assertSet('batch', $new_product['batch'])
+                // set expiry date
+                ->set('expiry_date', $new_product['expiry_date'])
+                ->assertSet('expiry_date', $new_product['expiry_date'])
+                // set other newly added fields
+                ->set('model', $new_product['model'])
+                ->assertSet('model', $new_product['model'])
+                // 
+                ->set('batch', $new_product['batch'])
+                ->assertSet('batch', $new_product['batch'])
+                // 
+                ->set('color', $new_product['color'])
+                ->assertSet('color', $new_product['color'])
+                // 
+                ->set('size', $new_product['size'])
+                ->assertSet('size', $new_product['size'])
+                // 
+                ->set('brand', $new_product['brand'])
+                ->assertSet('brand', $new_product['brand'])
+                ->call('save')
+                ->assertHasNoErrors()
+                ;
 
-        $product = Product::first();
+        $product = Product::firstOrFail();
 
         $this->assertCount(1, $product->images);
     }    

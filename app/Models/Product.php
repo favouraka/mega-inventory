@@ -14,7 +14,8 @@ class Product extends Model
         'category_id', 
         'weight', 'height', 'length', 'width',
         'upc_code', 'sku_code',
-        'price_ngn', 'price_cfa'
+        'price_ngn', 'price_cfa',
+        'color', 'size', 'batch', 'manufacturer', 'brand', 'production_date', 'expiry_date',
     ];
 
     public function category()

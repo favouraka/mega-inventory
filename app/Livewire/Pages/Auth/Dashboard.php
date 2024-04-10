@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Auth;
 #[Title('Home')]
 class Dashboard extends Component
 {
+
+    public function getTotalStockProperty()
+    {
+        return auth()->user()->store->stock?->sum('quantity') ?? 0;
+    }
+
     public function logout()
     {
         Auth::logout();

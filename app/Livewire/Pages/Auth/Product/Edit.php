@@ -8,15 +8,15 @@ use Livewire\Attributes\Title;
 use App\Models\Product;
 use Illuminate\Support\Str;
 
-#[Title('Create New Product')]
-class Create extends Component
+#[Title('Edit Product')]
+class Edit extends Component
 {
     use WithFileUploads;
+    // model
+    public $product;
     // basic information
     public $title;
     public $description;
-    // images
-    public $images = [];
     // category
     public $category_id;
     // manufacturer metadata
@@ -26,6 +26,7 @@ class Create extends Component
     public $batch;
     public $model;
 
+    public $images = [];
     // stock metadata
     public $color;
     public $size;
@@ -58,39 +59,27 @@ class Create extends Component
                         'height' => 'required|numeric',
                         'width' => 'required|numeric',
                         'length' => 'required|numeric',
-                        'sku_code' => 'string|nullable|unique:products',
-                        'upc_code' => 'required|string',
+                        'sku_code' => 'string|nullable|unique:products,id,'.$this->product->id,
+                        'upc_code' => 'required',
                         'price_ngn' => 'required|numeric',
                         'price_cfa' => 'required|numeric',
                         // 
                         'manufacturer' => 'required|string',
                         'production_date' => 'required|string',
-                        'expiry_date' => 'nullable|string',
+                        'expiry_date' => 'nullable|date',
                         'batch' => 'nullable',
                         'model' => 'nullable|string',
                         'color' => 'nullable|string',
                         'size' => 'nullable|string',
                         'brand' => 'nullable|string',
                     ]);
+
+        
                     
 
-        $product = Product::create([...$validated]);
-
-        $product_images = [];
-
-        foreach($this->images as $key => $value){
-            $file_name = Str::slug($product->title.$key.now()).'.'.$value->getClientOriginalExtension();
-            $file_path = $value->storeAs('photos', $file_name, 'public');
-            $product_images[] = [
-                'alt' => $validated['title'].'-image-'.$key,
-                'path' => $file_path,
-            ];
-        }
-        // save product images
-        $product->images()->createMany($product_images);
-        
-        $this->reset();
+        $this->product->update([...$validated]);
         session()->flash('success');
+        return redirect()->route('dashboard.product.view', ['product' => $this->product->id]);
 
     }
 
@@ -108,6 +97,10 @@ class Create extends Component
 
     public function removeImage($key)
     {
+        // remove image from images array
+        $image = $this->images[$key];
+        $this->product->images()->findOrFail($image->id)->delete();
+        // 
         $this->images = collect($this->images)->forget($key);
     }
 
@@ -116,8 +109,13 @@ class Create extends Component
         $validated = $this->validate([
             'upload_image' => 'required|image|max:2048',
         ]);
+        // save upload_image to $this->product images relationship and update public image property with $thi->product->images
+        $this->product->images()->create([
+            'path' => $validated['upload_image']->store('products', 'public'),
+            'alt' => 'product image',
+        ]);
 
-        $this->images = collect($this->images)->push($validated['upload_image']);
+        $this->images = Product::findorFail($this->product->id)->images;
 
         $this->dispatch('photo-uploaded');
         $this->reset([
@@ -125,8 +123,34 @@ class Create extends Component
         ]);
     }
 
+    public function mount(Product $product)
+    {
+        $this->product = $product;
+        $this->title = $product->title;
+        $this->description = $product->description;
+        $this->category_id = $product->category_id;
+        $this->manufacturer = $product->manufacturer;
+        $this->production_date = $product->production_date;
+        $this->expiry_date = $product->expiry_date;
+        $this->batch = $product->batch;
+        $this->model = $product->model;
+        $this->color = $product->color;
+        $this->size = $product->size;
+        $this->brand = $product->brand;
+        $this->weight = $product->weight;
+        $this->width = $product->width;
+        $this->length = $product->length;
+        $this->height = $product->height;
+        $this->sku_code = $product->sku_code;
+        $this->upc_code = $product->upc_code;
+        $this->price_ngn = $product->price_ngn;
+        $this->price_cfa = $product->price_cfa;
+
+        $this->images = $product->images;
+    }
+
     public function render()
     {
-        return view('livewire.pages.auth.product.create')->layout('layouts.dashboard');
+        return view('livewire.pages.auth.product.edit')->layout('layouts.dashboard');
     }
 }
