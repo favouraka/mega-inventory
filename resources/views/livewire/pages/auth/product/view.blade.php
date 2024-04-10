@@ -82,7 +82,7 @@
                     @endforelse
                     {{-- check if product exists in user current location --}}
                     @if ( auth()->user()->store->stocks()->whereHas('product', function($query) {
-                                $query->findOrFail($this->product->id);
+                                $query->where('id', $this->product->id);
                             })->first() )
                             {{-- restock product in location --}}
                             <a href="#"

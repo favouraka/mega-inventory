@@ -71,9 +71,9 @@
                                 </td>
                                 <td class="p-2"></td>
                                 <td class="p-2"></td>
-                                <td class="p-2">
+                                <td class="p-2 whitespace-nowrap">
                                     <a href="{{ route('dashboard.product.view', ['product' => $item->id]) }}" 
-                                       class="p-2 text-sm font-semibold text-white rounded-lg bg-blue-500">View Product</a>
+                                       class="p-2 text-sm font-semibold text-white bg-blue-500 rounded-lg">View Product</a>
                                 </td>
                             </tr>
                         @endforeach

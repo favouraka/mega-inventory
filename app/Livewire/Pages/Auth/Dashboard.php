@@ -13,7 +13,7 @@ class Dashboard extends Component
 
     public function getTotalStockProperty()
     {
-        return auth()->user()->store->stock?->sum('quantity') ?? 0;
+        return auth()->user()->store->stocks?->sum('quantity') ?? 0;
     }
 
     public function logout()

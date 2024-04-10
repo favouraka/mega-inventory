@@ -1,6 +1,6 @@
 <section class="space-y-4">
     <header class="flex flex-col-reverse items-center justify-between gap-4 p-4 rounded-md shadow-sm md:flex-row">
-        <div class="flex gap-4 items-center">
+        <div class="flex items-center gap-4">
             <span class="text-4xl font-extralight">Stock</span>
             {{-- inventory info --}}
             <div class="flex gap-2 p-2 rounded-lg bg-neutral-100">
@@ -64,12 +64,12 @@
                             <tr class="divide-x">
                                 <th class="relative p-2 text-left">
                                     <div class="w-full">
-                                        <p class="text-base font-semibold">{{$item->title}}</p> 
+                                        <p class="text-base font-semibold">{{$item->product->title}}</p> 
                                     </div>
                                 </th>
                                 <td class="flex justify-center p-2">
                                     @php
-                                        $photo = $item->images->first();
+                                        $photo = $item->product->images->first();
                                     @endphp
                                     <div 
                                         x-bind:style="{
@@ -86,8 +86,8 @@
                                 </td>
                                 <td class="p-2"></td>
                                 <td class="p-2">
-                                    <a href="{{ route('dashboard.product.view', ['product' => $item->id]) }}" 
-                                       class="p-2 text-sm font-semibold text-white rounded-lg bg-blue-500">View Product</a>
+                                    <a href="{{ route('dashboard.product.view', ['product' => $item->product->id]) }}" 
+                                       class="p-2 text-sm font-semibold text-white bg-blue-500 rounded-lg">View Product</a>
                                     <a href="#"
                                         class="p-2 text-sm font-semibold text-blue-500 border border-blue-500 rounded-lg">Restock</a>
                                 </td>
