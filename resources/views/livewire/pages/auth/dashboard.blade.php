@@ -5,10 +5,10 @@
     class="grid lg:grid-cols-3 grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full [&_span]:text-slate-400">
     {{-- label --}}
     <section class="flex items-center justify-between w-full col-span-full">
-        <div class="flex gap-4 items-center">
+        <div class="flex flex-wrap items-center gap-4">
             <span class="text-4xl font-extralight">Dashboard</span>
             {{-- inventory info --}}
-            <div class="flex gap-2 p-2 rounded-lg bg-neutral-100">
+            <div class="flex gap-2 p-2 rounded-lg bg-neutral-100 flex-nowrap">
                 {{-- svg location, map pin icon --}}
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
