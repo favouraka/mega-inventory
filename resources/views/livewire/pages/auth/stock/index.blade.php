@@ -20,25 +20,19 @@
             <span>Stock</span>
         </nav>
     </header>
-    <div class="flex flex-col-reverse justify-between gap-4 md:flex-row">
-        <article class="w-full p-4 space-y-2 bg-white rounded-lg shadow-sm md:w-1/3">
-            <label for="search" class="block text-lg font-light">Search for available stock</label>
-            <input
-                wire:model.live.debounce.200ms='search'
-                placeholder="Search for products here..."
-                class="w-full p-2 px-3 border rounded-lg border-slate-400 bg-slate-50 placeholder:text-neutral-300 placeholder:text-sm"
-                type="search" 
-                name="search">
-        </article>
-        {{-- <article class="w-auto p-4 space-y-2 bg-white rounded-lg shadow-sm shrink-0 lg:w-1/3">
-            <p class="text-lg font-light capitalize">create new product</p>
-            <a href="{{route('dashboard.product.create')}}" class="inline-block p-2 px-3 text-sm font-semibold text-white bg-blue-500 rounded shadow-sm shadow-blue-400">Create &plus;</a>
-        </article> --}}
-    </div>
-    {{-- results --}}
-    @if(count($this->stocks) && $this->search)
-        <div class="p-4 uppercase">
-            <p>results for: "{{$this->search}}" </p>
+    @if(session()->has('success'))
+        <div x-data x-on:hide-notification="$el.classList.replace('flex', 'hidden') " class="flex items-center justify-between p-4 bg-green-100 rounded-lg">
+            <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-green-500">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-green-500">{{session('success')}}</span>
+            </div>
+            <button x-on:click="$dispatch('hide-notification')" class="text-gray-500 hover:text-gray-700" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
         </div>
     @endif
     {{-- product grid --}}
