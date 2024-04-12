@@ -23,34 +23,41 @@
         </nav>
     </header>
 
-    {{-- html form for adding stock to store location --}}
-    <form class="p-4 space-y-4 bg-white rounded-md shadow-sm" wire:submit.prevent="addToStore">
-        <div class="max-w-xl rounded-md border-yellow-600bg-yelow-100">
-            <div class="flex items-center gap-4 p-2 bg-yellow-100">
-                {{-- svg icon for warning --}}
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 3a9 9 0 1 1 13.856 0M12 9v2m0 4h.01" />
-                </svg>
-                <span class="text-yellow-600">Please make sure to add the correct product and quantity.</span>
+    @if ($this->existingProduct)        
+        <div class="max-w-xl p-4 bg-red-100 border border-red-500 rounded-md">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-600">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 3a9 9 0 1 1 13.856 0M12 9v2m0 4h.01" />
+            </svg>
+            <span class="text-red-600">Stock has already been added.</span>
+        </div>
+    @else        
+        {{-- html form for adding stock to store location --}}
+        <form class="p-4 space-y-4 bg-white rounded-md shadow-sm" wire:submit.prevent="addToStore">
+            <div class="max-w-xl rounded-md border-yellow-600bg-yelow-100">
+                <div class="flex items-center gap-4 p-2 bg-yellow-100">
+                    {{-- svg icon for warning --}}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 3a9 9 0 1 1 13.856 0M12 9v2m0 4h.01" />
+                    </svg>
+                    <span class="text-yellow-600">Please make sure to add the correct product and quantity.</span>
+                </div>
             </div>
-        </div>
-        <div class="flex items-center gap-4">
-            <label for="quantity" class="text-lg font-medium">Product:</label>
-            <span class="">{{$this->product->title}}</span>
-        </div>
-        <div class="flex items-center gap-4">
-            <label for="quantity" class="text-lg font-medium">Quantity:</label>
-            <input required type="number" id="quantity" name="quantity" min="1" wire:model="quantity" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-        </div>
-        
-        @if($errors->first())
-            <div class="p-2 text-red-600 bg-red-100 rounded-md">
-                {{ $errors->first() }}
+            <div class="flex items-center gap-4">
+                <label for="quantity" class="text-lg font-medium">Product:</label>
+                <span class="">{{$this->product->title}}</span>
             </div>
-        @endif
-        
-        <button type="submit" class="px-4 py-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600">Add to Store</button>
-    </form>
-    
-    
+            <div class="flex items-center gap-4">
+                <label for="quantity" class="text-lg font-medium">Quantity:</label>
+                <input required type="number" id="quantity" name="quantity" min="1" wire:model="quantity" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            
+            @if($errors->first())
+                <div class="p-2 text-red-600 bg-red-100 rounded-md">
+                    {{ $errors->first() }}
+                </div>
+            @endif
+            
+            <button type="submit" class="px-4 py-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600">Add to Store</button>
+        </form>
+    @endif  
 </section>

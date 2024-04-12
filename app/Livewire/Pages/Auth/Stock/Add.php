@@ -14,6 +14,13 @@ class Add extends Component
 
     public $quantity;
 
+    public function getExistingProductProperty()
+    {
+        return $this->store->stocks()->whereHas('product', function($query){
+                    $query->where('id', $this->product->id);
+                })->first();
+    }
+
 
     public function addToStore()
     {
@@ -22,13 +29,8 @@ class Add extends Component
                     ]);
 
         // ensure stock does not exist in store
-        $storeProduct = $this->store->stocks()->whereHas('product', function($query){
-            $query->where('id', $this->product->id);
-        })->first();
 
-        // dd($this->store->stocks);
-
-        if ($storeProduct) {
+        if ($this->existingProduct) {
             $this->addError('product', 'Product already exists in store.');
         } else {
             // store stock in store
