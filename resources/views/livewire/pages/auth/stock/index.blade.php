@@ -35,10 +35,23 @@
             </button>
         </div>
     @endif
+    {{-- search for stock in store --}}
+    <div class="flex flex-col-reverse justify-between gap-4 md:flex-row">
+        <article class="w-full p-4 space-y-2 bg-white rounded-lg shadow-sm md:w-1/3">
+            <label for="search" class="block text-lg font-light">Search for stock</label>
+            <input
+                wire:model.live.debounce.200ms='search'
+                placeholder="Search for stock here..."
+                class="w-full p-2 px-3 border rounded-lg border-slate-400 bg-slate-50 placeholder:text-neutral-300 placeholder:text-sm"
+                type="search" 
+                name="search">
+        </article>
+        {{-- filter stock  --}}
+    </div>
     {{-- product grid --}}
     <div class="grid grid-cols-1 gap-4 rounded-lg md:grid-cols-2 lg:grid-cols-3 bg-neutral-50">
         @if ($this->stocks->count() > 0)
-            <div class="relative overflow-auto bg-white rounded-lg shadow-md max-h-96 col-span-full lg:col-span-full">
+            <div class="relative overflow-auto bg-white rounded-lg shadow-md max-h-72 col-span-full lg:col-span-full">
                 <table 
                     class="w-full table-auto">
                     <thead class="text-sm font-semibold border-b bg-blue-50 whitespace-nowrap">
