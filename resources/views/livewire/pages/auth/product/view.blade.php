@@ -70,10 +70,16 @@
                <h2 class="text-xl font-bold">Inventory</h2>
                <hr class="my-4">
                <div class="grid grid-flow-row gap-2">
+                    {{-- shows stock data in all locations --}}
                     @forelse ($this->stockData as $item)
-                        <div class="flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg">
-                            <h3 class="text-lg font-semibold">{{$item->name}}</h3>
-                            <p class="text-gray-500">Quantity: {{$item->stocks->quantity}}</p>
+                        <div 
+                            @class([
+                                'flex flex-col items-center justify-center p-4 rounded-lg', 
+                                'outline outline-blue-200 bg-blue-50 text-blue-500' => (auth()->user()->store == $item->store),
+                                'bg-gray-200 text-slate-600' => !(auth()->user()->store == $item->store),
+                            ])>
+                            <h3 class="text-lg font-semibold">{{$item->store->name}}</h3>
+                            <p class="text-gray-500">Quantity: {{$item->quantity}}</p>
                         </div>                    
                     @empty                        
                         <div class="flex flex-col items-center justify-center p-4 text-pink-600 rounded-lg bg-pink-50">

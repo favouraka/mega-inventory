@@ -21,7 +21,7 @@ class View extends Component
 
     public function getStockDataProperty()
     {
-        return auth()->user()->store()->with('stocks')->where('id', $this->product->store_id)->get();
+        return $this->product->stocks()->with('store')->get();
     }
 
     public function assetUrl($path)
