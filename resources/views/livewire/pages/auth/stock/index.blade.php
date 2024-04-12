@@ -1,9 +1,9 @@
 <section class="space-y-4">
     <header class="flex flex-col-reverse items-center justify-between gap-4 p-4 rounded-md shadow-sm md:flex-row">
-        <div class="flex items-center gap-4">
+        <div class="flex flex-wrap items-center gap-4">
             <span class="text-4xl font-extralight">Stock</span>
             {{-- inventory info --}}
-            <div class="flex gap-2 p-2 rounded-lg bg-neutral-100">
+            <div class="flex gap-2 p-2 rounded-lg bg-neutral-100 flex-nowrap">
                 {{-- svg location, map pin icon --}}
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -85,9 +85,9 @@
                                     {{$item->quantity}}
                                 </td>
                                 <td class="p-2"></td>
-                                <td class="p-2">
+                                <td class="p-2 space-y-2">
                                     <a href="{{ route('dashboard.product.view', ['product' => $item->product->id]) }}" 
-                                       class="p-2 text-sm font-semibold text-white bg-blue-500 rounded-lg">View Product</a>
+                                       class="inline-block p-2 text-sm font-semibold text-white bg-blue-500 rounded-lg whitespace-nowrap">View Product</a>
                                     <a href="#"
                                         class="p-2 text-sm font-semibold text-blue-500 border border-blue-500 rounded-lg">Restock</a>
                                 </td>
