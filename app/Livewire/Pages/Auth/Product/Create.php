@@ -66,8 +66,8 @@ class Create extends Component
                         'price_cfa' => 'required|numeric',
                         // product metadata
                         'manufacturer' => 'required|string',
-                        'production_date' => 'required|string',
-                        'expiry_date' => 'nullable|string',
+                        'production_date' => 'required|date',
+                        'expiry_date' => 'required_with:production_date|gt:production_date|date',
                         'batch' => 'nullable',
                         'model' => 'nullable|string',
                         'color' => 'nullable|string',

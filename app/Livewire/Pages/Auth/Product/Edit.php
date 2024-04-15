@@ -67,8 +67,8 @@ class Edit extends Component
                         'price_cfa' => 'required|numeric',
                         // 
                         'manufacturer' => 'required|string',
-                        'production_date' => 'required|string',
-                        'expiry_date' => 'nullable|date',
+                        'production_date' => 'required|date',
+                        'expiry_date' => 'required_with:production_date|gt:production_date|date',
                         'batch' => 'nullable',
                         'model' => 'nullable|string',
                         'color' => 'nullable|string',
