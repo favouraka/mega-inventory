@@ -32,7 +32,7 @@
     {{-- product grid --}}
     <div class="grid grid-cols-1 gap-4 rounded-lg md:grid-cols-2 lg:grid-cols-3 bg-neutral-50">
         @if ($this->products->count() > 0)
-            <div class="relative overflow-auto bg-white rounded-lg shadow-md max-h-72 col-span-full lg:col-span-full">
+            <div class="relative overflow-x-auto bg-white rounded-lg shadow-md col-span-full lg:col-span-full">
                 <table 
                     class="w-full table-auto">
                     <thead class="text-sm font-semibold border-b bg-blue-50 whitespace-nowrap">
