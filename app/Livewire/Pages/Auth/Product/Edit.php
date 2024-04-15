@@ -55,10 +55,12 @@ class Edit extends Component
                         'title' => 'required|min:8|bail',
                         'description' => 'required|min:10',
                         'category_id' => 'required|numeric',
-                        'weight' => 'required|numeric',
-                        'height' => 'required|numeric',
-                        'width' => 'required|numeric',
-                        'length' => 'required|numeric',
+                        // shipping information is nullable
+                        'weight' => 'nullable|numeric',
+                        'height' => 'nullable|numeric',
+                        'width' => 'nullable|numeric',
+                        'length' => 'nullable|numeric',
+                        // inventory info
                         'sku_code' => 'string|nullable|unique:products,id,'.$this->product->id,
                         'upc_code' => 'required',
                         'price_ngn' => 'required|numeric',

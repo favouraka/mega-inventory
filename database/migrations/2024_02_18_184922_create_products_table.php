@@ -16,10 +16,10 @@ return new class extends Migration
             $table->text('title');
             $table->longText('description');
             $table->unsignedInteger('category_id');
-            $table->unsignedInteger('weight');
-            $table->unsignedInteger('width');
-            $table->unsignedInteger('length');
-            $table->unsignedInteger('height');
+            $table->unsignedInteger('weight')->nullable();
+            $table->unsignedInteger('width')->nullable();
+            $table->unsignedInteger('length')->nullable();
+            $table->unsignedInteger('height')->nullable();
             $table->unsignedInteger('upc_code')->nullable();
             $table->string('sku_code')->nullable();
             $table->string('brand')->nullable();

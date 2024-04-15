@@ -54,15 +54,17 @@ class Create extends Component
                         'title' => 'required|min:8|bail',
                         'description' => 'required|min:10',
                         'category_id' => 'required|numeric',
-                        'weight' => 'required|numeric',
-                        'height' => 'required|numeric',
-                        'width' => 'required|numeric',
-                        'length' => 'required|numeric',
+                        // shipping info is nullable
+                        'weight' => 'nullable|numeric',
+                        'height' => 'nullable|numeric',
+                        'width' => 'nullable|numeric',
+                        'length' => 'nullable|numeric',
+                        // inventory info
                         'sku_code' => 'string|nullable|unique:products',
                         'upc_code' => 'required|string',
                         'price_ngn' => 'required|numeric',
                         'price_cfa' => 'required|numeric',
-                        // 
+                        // product metadata
                         'manufacturer' => 'required|string',
                         'production_date' => 'required|string',
                         'expiry_date' => 'nullable|string',
