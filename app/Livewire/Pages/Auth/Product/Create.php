@@ -62,8 +62,8 @@ class Create extends Component
                         // inventory info
                         'sku_code' => 'string|nullable|unique:products',
                         'upc_code' => 'required|string',
-                        'price_ngn' => 'required|numeric',
-                        'price_cfa' => 'required|numeric',
+                        'price_ngn' => 'required_without:price_cfa|nullable|numeric',
+                        'price_cfa' => 'required_without:price_ngn|nullable|numeric',
                         // product metadata
                         'manufacturer' => 'required|string',
                         'production_date' => 'required|date',

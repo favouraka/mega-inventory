@@ -63,12 +63,12 @@ class Edit extends Component
                         // inventory info
                         'sku_code' => 'string|nullable|unique:products,id,'.$this->product->id,
                         'upc_code' => 'required',
-                        'price_ngn' => 'required|numeric',
-                        'price_cfa' => 'required|numeric',
+                        'price_ngn' => 'required_without:price_cfa|nullable|numeric|bail',
+                        'price_cfa' => 'required_without:price_ngn|nullable|numeric',
                         // 
                         'manufacturer' => 'required|string',
                         'production_date' => 'required|date',
-                        'expiry_date' => 'required_with:production_date|after:production_date|date',
+                        'expiry_date' => 'required_if:production_date|after:production_date|date',
                         'batch' => 'nullable',
                         'model' => 'nullable|string',
                         'color' => 'nullable|string',
