@@ -127,10 +127,10 @@
                     @enderror
                 </div>
                 <div class="block space-y-2">
-                    <label for="production_date" class="font-light">Expiry date</label>
-                    <input wire:model='production_date' type="date" placeholder="Date of production" class="block w-full p-3 border rounded-lg bg-slate-50">
-                    @error('production_date')
-                        <label for="production_date_error" class="text-sm italic text-red-500">{{$message}}</label>
+                    <label for="expiry_date" class="font-light">Expiry date</label>
+                    <input wire:model='expiry_date' type="date" placeholder="Date of production" class="block w-full p-3 border rounded-lg bg-slate-50">
+                    @error('expiry_date')
+                        <label for="expiry_date_error" class="text-sm italic text-red-500">{{$message}}</label>
                     @enderror
                 </div>
             </div>
