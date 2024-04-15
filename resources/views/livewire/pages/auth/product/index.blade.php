@@ -85,7 +85,14 @@
                                     <span class="p-2 text-xs font-light tracking-wide rounded-lg bg-amber-200">CFA {{$item->price_cfa}}</span>                            
                                 </td>
                                 <td class="p-2"></td>
-                                <td class="p-2"></td>
+                                <td class="p-2">
+                                    {{-- total available in all current locations --}}
+                                    {{
+                                        $item->stocks()->whereHas('store', function($query){
+                                            $query->where('store_id', auth()->user()->store->id);
+                                        })->sum('quantity')
+                                    }}
+                                </td>
                                 <td class="p-2 space-y-2 whitespace-nowrap">
                                     <a href="{{ route('dashboard.product.view', ['product' => $item->id]) }}" 
                                        class="p-2 text-sm font-semibold text-white bg-blue-500 rounded-lg">View Product</a>
