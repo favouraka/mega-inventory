@@ -80,7 +80,7 @@ class Edit extends Component
                     
 
         $this->product->update([...$validated]);
-        session()->flash('success');
+        session()->flash('success', 'Product edited successfully');
         return redirect()->route('dashboard.product.view', ['product' => $this->product->id]);
 
     }

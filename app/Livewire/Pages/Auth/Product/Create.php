@@ -91,9 +91,8 @@ class Create extends Component
         // save product images
         $product->images()->createMany($product_images);
         
-        $this->reset();
-        session()->flash('success');
-
+        session()->flash('success', 'Product created sucessfully');
+        return redirect()->route('dashboard.product.index');
     }
 
     public function generateSku()

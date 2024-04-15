@@ -8,6 +8,21 @@
             <span>Products</span>
         </nav>
     </header>
+    @if(session()->has('success'))
+        <div x-data x-on:hide-notification="$el.classList.replace('flex', 'hidden') " class="flex items-center justify-between p-4 bg-green-100 rounded-lg">
+            <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-green-500">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-green-500">{{session('success')}}</span>
+            </div>
+            <button x-on:click="$dispatch('hide-notification')" class="text-gray-500 hover:text-gray-700" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    @endif
     <div class="flex flex-col-reverse justify-between gap-4 md:flex-row">
         <article class="w-full p-4 space-y-2 bg-white rounded-lg shadow-sm md:w-1/3">
             <label for="search" class="block text-lg font-light">Search for products</label>
