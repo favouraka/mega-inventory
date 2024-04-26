@@ -42,7 +42,7 @@
             x-cloak class="space-y-2">
             <p class="text-xs font-thin uppercase text-neutral-400 ">orders</p>
             <nav class="*:p-2 hover:*:bg-blue-200 text-sm font-semibold text-slate-600 flex flex-col capitalize">
-                <a href="#">New order</a>
+                <a @class(['bg-slate-500 text-white' => request()->routeIs('dashboard.order.*')]) href="{{route('dashboard.order.create')}}">New order</a>
                 <a href="#">Sales</a>
                 <a href="#">Restock</a>
                 <a href="#">Customers</a>

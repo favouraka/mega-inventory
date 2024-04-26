@@ -10,6 +10,8 @@ use App\Livewire\Pages\Auth\Product\Edit;
 use App\Livewire\Pages\Auth\Product\View;
 use App\Livewire\Pages\Auth\Stock\Index as IndexStock;
 use App\Livewire\Pages\Auth\Stock\Add as AddStock;
+use App\Livewire\Pages\Auth\Stock\View as ViewStock;
+use App\Livewire\Pages\Auth\Order\Create as CreateOrder;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,12 +33,22 @@ Route::get('/', function () {
 Route::prefix('dashboard')->name('dashboard.')->middleware('auth')
      ->group(function(){
                 Route::get('/', Dashboard::class)->name('home');
+
+                Route::name('order.')->prefix('order')
+                    ->group(function(){
+                        Route::get('/', CreateOrder::class)->name('create');
+                        // Route::get('/', IndexOrder::class)->name('index');
+                        // Route::get('view/{order}', ViewOrder::class)->name('view');
+                    });
+
                 // stock route group
                 Route::name('stock.')->prefix('stock')
                     ->group(function(){
                         Route::get('/', IndexStock::class)->name('index');
                         Route::get('add/{product}', AddStock::class)->name('add');
+                        Route::get('view/{stock}', ViewStock::class)->name('view');
                     });
+
                 // product routes
                 Route::name('product.')->prefix('product')
                       ->group(function(){

@@ -21,4 +21,10 @@ class Stock extends Model
     {
         return $this->belongsTo(Store::class);
     }
+
+    public function sale()
+    {
+        return $this->hasMany(Sale::class);
+    }
+    
 }

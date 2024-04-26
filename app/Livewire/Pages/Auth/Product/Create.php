@@ -128,6 +128,8 @@ class Create extends Component
 
     public function render()
     {
+        // add a variable for $images as the $this property
+        $images = $this->images;
         return view('livewire.pages.auth.product.create')->layout('layouts.dashboard');
     }
 }

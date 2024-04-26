@@ -88,6 +88,7 @@
                                 <td class="p-2">
                                     {{-- total available in all current locations --}}
                                     {{
+                                        //add a variable for $images as the $this property
                                         $item->stocks()->whereHas('store', function($query){
                                             $query->where('store_id', auth()->user()->store->id);
                                         })->sum('quantity')
