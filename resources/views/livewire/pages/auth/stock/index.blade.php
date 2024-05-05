@@ -91,7 +91,9 @@
                                 <td class="p-2">
                                     {{$item->quantity}}
                                 </td>
-                                <td class="p-2"></td>
+                                <td class="p-2">
+                                    {{$item->sales->sum('quantity')}}
+                                </td>
                                 <td class="p-2 space-y-2">
                                     <a href="{{ route('dashboard.product.view', ['product' => $item->product->id]) }}" 
                                        class="inline-block p-2 text-sm font-semibold text-white bg-blue-500 rounded-lg whitespace-nowrap">View Product</a>

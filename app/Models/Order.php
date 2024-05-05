@@ -16,6 +16,11 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
+
     public function sales()
     {
         return $this->hasMany(Sale::class);

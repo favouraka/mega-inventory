@@ -19,6 +19,7 @@ class Create extends Component
     public $customer_phone;
     public $customer_name;
     public $customer_email;
+    public $reference;
 
 
     protected $queryString = [
@@ -37,6 +38,11 @@ class Create extends Component
         })->latest()->take(6)->get();
     }
 
+    public function mount()
+    {
+        $this->reference = 'ORD-' . substr(md5(time()), 0, 16);
+    }
+
     public function createOrder()
     {
         $this->validate([
@@ -44,17 +50,21 @@ class Create extends Component
             'customer_phone' => 'required|string',
             'customer_name' => 'required|string',
             'customer_email' => 'nullable|email',
+            'reference' => 'required|string|unique:orders,reference'
         ]);
 
         //create order record
         $order = auth()->user()->orders()->create([
                         'payment_method' => $this->payment_method,
                         'customer_phone' => $this->customer_phone,
+                        'reference' => $this->reference,
                         'customer_name' => $this->customer_name,
                         'customer_email' => $this->customer_email,
                         'status' => 'completed',
+                        'store_id' => auth()->user()->store->id,
                     ]);
-
+        
+        // add sales to order
         $order->sales()->createMany(Cart::content()->map(function($item){
             return [
                 'stock_id' => $item->stock_id,
@@ -64,7 +74,9 @@ class Create extends Component
             ];
         })->toArray());
 
-        dd($order);
+        // order created show card
+        Cart::clear();
+        return redirect()->route('dashboard.order.view',['order' => $order->id]);
     }
 
     #[Computed]

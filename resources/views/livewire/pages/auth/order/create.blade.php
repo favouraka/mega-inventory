@@ -1,3 +1,23 @@
+{{-- New Order --}}
+{{-- 
+    - search for products
+    - add products to cart
+    - remove products from cart
+    - update quantity of products in cart
+    - update price of products in cart
+    - reset price of products in cart
+    - create order
+    - payment method
+    - customer details
+    - verify order details
+    - cancel order
+    - pause order
+
+    - search for products
+    - add products to cart
+    - remove products from cart
+
+--}}
 <section class="space-y-4">
     <header class="flex flex-col-reverse items-center justify-between gap-4 p-4 rounded-md shadow-sm md:flex-row">
         <h1 class="text-4xl font-extralight">New Order</h1>    
@@ -23,7 +43,7 @@
             </button>
         </div>
     @endif
-    <div class="flex gap-4 flex-col md:flex-row h-min">
+    <div class="flex flex-col gap-4 md:flex-row h-min">
         {{-- search and items --}}
         <div class="flex flex-wrap justify-between w-full gap-4 md:w-3/4 lg:w-2/3 md:flex-row h-fit">
             {{-- search console --}}
@@ -54,12 +74,12 @@
             {{-- search results --}}
             @if ($this->search)
                 @if ($this->results->count())                    
-                    <div wire:model.live='search' class="w-full relative p-4 border border-blue-400 rounded-lg shadow-sm">
+                    <div wire:model.live='search' class="relative w-full p-4 border border-blue-400 rounded-lg shadow-sm">
                         <p class="pb-4 text-lg font-black text-slate-700">Search results for "{{$this->search}}"</p>
-                        <button x-on:click="$dispatch('input', '')" class="underline text-blue-500 text-sm absolute right-4 top-4">clear search</button>
+                        <button x-on:click="$dispatch('input', '')" class="absolute text-sm text-blue-500 underline right-4 top-4">clear search</button>
                         <div class="divide-y">
                             @foreach ($this->results as $item)                                
-                                <div class="flex gap-4 p-4 bg-gray-100 flex-col md:flex-row">
+                                <div class="flex flex-col gap-4 p-4 bg-gray-100 md:flex-row">
                                     <div class="flex-1">
                                         <p class="text-lg ">{{$item->product->title}} <span class="font-semibold">[NGN {{$item->product->price_ngn}}]</span></p>
                                         <p class="text-xs uppercase">quantity: {{$item->quantity}}</p>
@@ -85,46 +105,46 @@
             @if ($this->orderItems->count() > 0)
             <div class="flex-1 max-w-2xl">
                 <p class="pb-4 text-lg font-black text-slate-700">Items in cart</p>
-                <div class="divide-y rounded-md shadow-md overflow-clip border border-green-700">
+                <div class="border border-green-700 divide-y rounded-md shadow-md overflow-clip">
                     @foreach ($this->orderItems as $sale)
-                        <div class="flex relative flex-wrap gap-4 p-4 bg-slate-50 items-end  ">
+                        <div class="relative flex flex-wrap items-end gap-4 p-4 bg-amber-50 ">
                             {{-- name  --}}
                             <div class="space-y-1 basis-full">
-                                <span class="font-thin text-sm">Product name:</span>
+                                <span class="text-sm font-thin">Product name:</span>
                                 <p class="text-lg font-bold">{{$sale->stock->product->title}}</p>
                             </div>
                             {{-- remove from cart --}}
-                            <button wire:click="removeFromCart({{$sale->stock_id}})" class="absolute right-2 top-0 float-right p-2 text-red-500 font-semibold text-3xl">&times;</button>
+                            <button wire:click="removeFromCart({{$sale->stock_id}})" class="absolute top-0 float-right p-2 text-3xl font-semibold text-red-500 right-2">&times;</button>
 
                             {{-- quanity --}}
-                            <div class="md:flex-1 space-y-2 flex-shrink">
-                                <p class="text-sm flex-grow font-light basis-full">Quantity:</p>
-                                <div class="flex max-w-sm gap-2">
+                            <div class="flex-shrink space-y-2 md:flex-1">
+                                <p class="flex-grow text-sm font-light basis-full">Quantity:</p>
+                                <div class="inline-block max-w-sm gap-2">
                                     <button wire:click="subtractItem({{$sale->stock_id}})" 
                                         @disabled($sale->quantity <= 1)
-                                        class="p-2 px-4 font-thin text-amber-700 bg-amber-200 rounded-lg disabled:bg-gray-400 disabled:text-gray-600">-</button>
+                                        class="p-2 px-4 font-thin rounded-lg text-amber-700 bg-amber-200 disabled:bg-gray-400 disabled:text-gray-600">-</button>
                                     <input name="quantity-{{$sale->stock_id}}" x-on:change.prevent="($evt) => {
                                         $wire.updateQuantity(@js($sale->stock_id), $evt.target.value)
-                                    }" class="text-lg md:w-16 w-8  text-center" value="{{$sale['quantity']}}">
+                                    }" class="w-8 text-lg text-center md:w-16" value="{{$sale['quantity']}}">
                                     <button wire:click="addItem({{$sale->stock_id}})" class="p-2 px-4 font-thin text-white bg-green-500 rounded-lg">+</button>
                                 </div>
                             </div>
                             {{-- price --}}
-                            <div class="flex flex-1 flex-wrap flex-grow space-y-2">
-                                <p class="text-sm flex-grow font-light basis-full">Price:</p>
-                                <div class="bg-blue-50 border border-gray-700 rounded-l-md p-2 px-4">₦</div>
+                            <div class="flex flex-wrap flex-1 flex-grow space-y-2 min-w-max">
+                                <p class="basis-full">Price:</p>
+                                <div class="p-4 py-2 text-gray-400 border border-gray-500 bg-blue-50 rounded-l-md ">₦</div>
                                 <input name="price-{{$sale->stock_id}}" x-on:change.prevent="($evt) => {
                                         $wire.updatePrice(@js($sale->stock_id), $evt.target.value);
                                     }" 
-                                    type="number" class="px-2 border w-2/5 md:w-1/2" min="1" 
+                                    type="number" class="w-2/5 px-2 border md:w-1/2" min="1" 
                                     value="{{$sale->sale_price}}">
                                 {{-- reset cart item sale_price to cost_price --}}
                                 <button wire:click="resetPrice({{$sale->stock_id}})" 
-                                    class="p-2 md:px-4 font-thin border-red-500 border text-red-500 rounded-r-md text-sm flex items-center ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:mr-4 mr-0">
+                                    class="flex items-center gap-2 p-2 text-sm font-thin text-gray-500 border border-gray-500 md:px-4 rounded-r-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                                     </svg>                                      
-                                    <span class="hidden md:block">Reset</span></button>
+                                    <span class="">Reset</span></button>
                             </div>
                         </div>
                     @endforeach
@@ -138,16 +158,16 @@
                 {{-- price and items --}}
                 <form 
                     wire:submit.prevent='createOrder'
-                    class="shadow-md bg-amber-50 rounded-md top-4 md:sticky divide-y border-amber-200">
+                    class="divide-y rounded-md shadow-md bg-amber-50 top-4 md:sticky border-amber-200">
                     {{-- item breakdown --}}
                     <div class="flex gap-4 p-4">
                         <p class="flex-1 font-semibold">Items added</p>
-                        <span class="p-4 rounded-full font-semibold flex items-center bg-amber-300 text-amber-800 text-xs h-8">{{$this->orderItems->sum('quantity')}}</span>
+                        <span class="flex items-center h-8 p-4 text-xs font-semibold rounded-full bg-amber-300 text-amber-800">{{$this->orderItems->sum('quantity')}}</span>
                     </div>
                     {{-- total --}}
                     <div class="flex gap-4 p-4">
                         <p class="flex-1 font-semibold">Total</p>
-                        <span class="font-semibold text-xl ">₦ {{$this->orderItems->sum(function($item){
+                        <span class="text-xl font-semibold ">₦ {{$this->orderItems->sum(function($item){
                             return $item->quantity * $item->sale_price;
                         })}}</span>
                     </div>

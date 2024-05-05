@@ -17,7 +17,12 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'payment_method' => $this->faker->randomElement(['credit_card', 'paypal']),
+            'customer_phone' => $this->faker->phoneNumber,
+            'customer_name' => $this->faker->name,
+            'customer_email' => $this->faker->email,
+            'status' => $this->faker->randomElement(['pending', 'processing', 'completed', 'cancelled']),
+            'reference' => 'ORD-' . fake()->asciify('****************'),
         ];
     }
 }

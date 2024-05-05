@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 use App\Livewire\Pages\Login;
 use App\Livewire\Pages\Auth\Dashboard;
@@ -36,9 +37,9 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth')
 
                 Route::name('order.')->prefix('order')
                     ->group(function(){
-                        Route::get('/', CreateOrder::class)->name('create');
-                        // Route::get('/', IndexOrder::class)->name('index');
-                        // Route::get('view/{order}', ViewOrder::class)->name('view');
+                        Volt::route('/', 'pages.auth.order.index')->name('index');
+                        Route::get('/create', CreateOrder::class)->name('create');
+                        Volt::route('/view/{order}', 'pages.auth.order.view')->name('view');
                     });
 
                 // stock route group
