@@ -1,5 +1,6 @@
 <?php
 
+use App\Filament\Pages\Dashboard as PagesDashboard;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -27,37 +28,37 @@ use App\Livewire\Pages\Auth\Order\Create as CreateOrder;
 
 Route::get('/', function () {
     // return view('pages.index');
-    return redirect()->route('login');
+    return redirect(PagesDashboard::getUrl());
 });
 
 
-Route::prefix('dashboard')->name('dashboard.')->middleware('auth')
-     ->group(function(){
-                Route::get('/', Dashboard::class)->name('home');
+// Route::prefix('dashboard')->name('dashboard.')->middleware('auth')
+//      ->group(function(){
+//                 Route::get('/', Dashboard::class)->name('home');
 
-                Route::name('order.')->prefix('order')
-                    ->group(function(){
-                        Volt::route('/', 'pages.auth.order.index')->name('index');
-                        Route::get('/create', CreateOrder::class)->name('create');
-                        Volt::route('/view/{order}', 'pages.auth.order.view')->name('view');
-                    });
+//                 Route::name('order.')->prefix('order')
+//                     ->group(function(){
+//                         Volt::route('/', 'pages.auth.order.index')->name('index');
+//                         Route::get('/create', CreateOrder::class)->name('create');
+//                         Volt::route('/view/{order}', 'pages.auth.order.view')->name('view');
+//                     });
 
-                // stock route group
-                Route::name('stock.')->prefix('stock')
-                    ->group(function(){
-                        Route::get('/', IndexStock::class)->name('index');
-                        Route::get('add/{product}', AddStock::class)->name('add');
-                        Route::get('view/{stock}', ViewStock::class)->name('view');
-                    });
+//                 // stock route group
+//                 Route::name('stock.')->prefix('stock')
+//                     ->group(function(){
+//                         Route::get('/', IndexStock::class)->name('index');
+//                         Route::get('add/{product}', AddStock::class)->name('add');
+//                         Route::get('view/{stock}', ViewStock::class)->name('view');
+//                     });
 
-                // product routes
-                Route::name('product.')->prefix('product')
-                      ->group(function(){
-                                Route::get('/', IndexProduct::class)->name('index');
-                                Route::get('create', Create::class)->name('create');
-                                Route::get('edit/{product}', Edit::class)->name('edit');
-                                Route::get('view/{product}', View::class)->name('view');
-                            });
-            });
+//                 // product routes
+//                 Route::name('product.')->prefix('product')
+//                       ->group(function(){
+//                                 Route::get('/', IndexProduct::class)->name('index');
+//                                 Route::get('create', Create::class)->name('create');
+//                                 Route::get('edit/{product}', Edit::class)->name('edit');
+//                                 Route::get('view/{product}', View::class)->name('view');
+//                             });
+//             });
 
-Route::get( '/login' , Login::class )->middleware('guest')->name('login');
+// Route::get( '/login' , Login::class )->middleware('guest')->name('login');

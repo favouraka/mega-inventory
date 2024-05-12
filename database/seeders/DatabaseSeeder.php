@@ -26,15 +26,17 @@ class DatabaseSeeder extends Seeder
 
         User::factory(12)->for(Store::inRandomOrder()->first(), 'store')->create();
         // 
-        User::factory()->for(
-                            Store::factory()->has(
-                                    Stock::factory()->for(
-                                        Product::inRandomOrder()->first()
-                                )
-                        )->count(5)->create()->first(), 'store')
-                ->create([
-                    'username' => 'administrator',
-                ]);
+        User::factory([
+            'name' => 'Administrator',
+            'username' => 'administrator',
+            'email' => 'admin@dannalisglobal.com',
+            'is_admin' => true,
+        ])->for(
+                Store::factory()->has(
+                        Stock::factory()->for(
+                            Product::inRandomOrder()->first()
+                    ))->count(5)->create()->first(), 'store'
+                )->create();
 
         Category::factory(12)->create();
 

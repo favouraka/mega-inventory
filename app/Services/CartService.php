@@ -21,6 +21,17 @@ class CartService
     }
 
     /**
+     * Checks if a product exists on the cart.
+     *
+     * @param string $productId The ID of the product to check.
+     * @param array $cartItems The array of cart items.
+     * @return bool Returns true if the product exists on the cart, false otherwise.
+     */
+    function exists($stock): bool {
+        return $this->items->where('stock_id', $stock)->count() ? true : false;
+    }
+
+    /**
      * Add an item to the cart.
      *
      * @param Stock | int $stock The item to add to the cart.
@@ -29,6 +40,7 @@ class CartService
     {
         $stock = is_int($stock) ? Stock::find($stock) : $stock;
         // check if sale exists on cart
+
         
         if (collect($this->items)->where('stock_id', $stock->id)->isNotEmpty()) {
             $this->items = collect($this->items)->map(function ($item) use ($stock, $quantity) {
@@ -38,7 +50,31 @@ class CartService
                 return $item;
             });
         } else {
-            $sale = $stock->sale()->make([
+            $sale = $stock->sales()->make([
+                'quantity' => $quantity,
+                'sale_price' => $stock->product->price_ngn,
+                'stock_price' => $stock->product->price_ngn,
+            ]);
+            
+            $this->items = collect($this->items)->push($sale);
+        }
+        
+        session()->put(self::DEFAULT_CART, $this->items);
+    }
+
+    public function updateQty($stock, $quantity)
+    {
+        $stock = is_int($stock) ? Stock::find($stock) : $stock;
+
+        if (collect($this->items)->where('stock_id', $stock->id)->isNotEmpty()) {
+            $this->items = collect($this->items)->map(function ($item) use ($stock, $quantity) {
+                if ($item['stock_id'] === $stock->id) {
+                    $item['quantity'] = $quantity;
+                }
+                return $item;
+            });
+        } else {
+            $sale = $stock->sales()->make([
                 'quantity' => $quantity,
                 'sale_price' => $stock->product->price_ngn,
                 'stock_price' => $stock->product->price_ngn,
@@ -75,7 +111,7 @@ class CartService
     }
 
 
-    public function subtract(Stock | int $stock, int $quantity = self::MIN_QUANTITY)
+    public function subtract(Stock | int $stock, int|string $quantity = self::MIN_QUANTITY)
     {
         $stock = is_int($stock) ? Stock::find($stock) : $stock;
         $this->items = collect($this->items)

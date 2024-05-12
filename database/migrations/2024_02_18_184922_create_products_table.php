@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('title');
             $table->longText('description');
+            $table->json('images')->nullable();
             $table->unsignedInteger('category_id');
             $table->unsignedInteger('weight')->nullable();
             $table->unsignedInteger('width')->nullable();

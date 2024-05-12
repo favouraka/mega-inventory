@@ -17,6 +17,11 @@ class Product extends Model
         'upc_code', 'sku_code',
         'price_ngn', 'price_cfa',
         'color', 'size', 'batch', 'manufacturer', 'brand', 'production_date', 'expiry_date',
+        'images'
+    ];
+
+    protected $casts = [
+        'images' => 'array',
     ];
 
     public function category()
@@ -26,10 +31,5 @@ class Product extends Model
 
     public function stocks() : HasMany {
         return $this->hasMany(Stock::class);
-    }
-
-    public function images()
-    {
-        return $this->hasMany(ProductImage::class);
     }
 }

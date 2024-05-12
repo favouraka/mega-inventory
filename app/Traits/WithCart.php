@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Facades\Cart;
+use Filament\Notifications\Notification;
 
 trait WithCart
 {
@@ -18,7 +19,12 @@ trait WithCart
      */
     public function addItem($stockId)
     {
+        $existingItem = Cart::exists($stockId);
         Cart::add($stockId);
+        if (!$existingItem) {
+            # code...
+            Notification::make()->title('Item added to cart')->success()->send();
+        }
     }
 
     public function updatePrice($stockId, $price)
@@ -28,7 +34,7 @@ trait WithCart
 
     public function updateQuantity($stockId, $quantity)
     {
-        Cart::add($stockId, $quantity);
+        Cart::updateQty($stockId, $quantity);
     }
 
     public function resetPrice($stockId)
@@ -55,6 +61,8 @@ trait WithCart
     public function removeFromCart($stockId)
     {
         Cart::remove($stockId);
+        // sends reove notification
+        Notification::make()->title('Item removed from cart')->info()->send();
     }
 
 }

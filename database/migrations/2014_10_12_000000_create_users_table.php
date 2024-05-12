@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignId('store_id')->constrained('stores');
+            $table->boolean('is_admin')->default(false); // Add the is_admin column            
             $table->rememberToken();
             $table->timestamps();
         });

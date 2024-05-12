@@ -13,6 +13,6 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        Product::factory(60)->hasImages(3)->create();
+        Product::factory(60)->create();
     }
 }
