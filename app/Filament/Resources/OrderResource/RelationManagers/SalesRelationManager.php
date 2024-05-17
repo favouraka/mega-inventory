@@ -34,7 +34,7 @@ class SalesRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('stock.product.title')
             ->columns([
-                Tables\Columns\TextColumn::make('stock.product.title'),
+                Tables\Columns\TextColumn::make('inventory.product.title'),
                 Tables\Columns\TextColumn::make('quantity'),
                 Tables\Columns\TextColumn::make('sale_price'),
                 Tables\Columns\TextColumn::make('total')
@@ -47,7 +47,7 @@ class SalesRelationManager extends RelationManager
             ])
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),
-                Action::make('show_sales'),
+                // Action::make('show_sales'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->visible(auth()->user()->is_admin),

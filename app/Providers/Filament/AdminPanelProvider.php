@@ -35,9 +35,9 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()
                 ->label('Sales'),
                 NavigationGroup::make()
-                ->label('Products'),
+                ->label('Inventory'),
                 NavigationGroup::make()
-                ->label('Store'),
+                ->label('Products'),
                 NavigationGroup::make()
                 ->label('Settings'),
             ])

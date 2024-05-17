@@ -5,7 +5,7 @@ namespace App\Filament\Widgets;
 use App\Facades\Cart;
 use App\Filament\Pages\NewOrder;
 use App\Filament\Resources\ProductResource\Pages\ViewProduct;
-use App\Models\Stock;
+use App\Models\Inventory;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
@@ -29,17 +29,17 @@ class ProductsInStore extends BaseWidget
     {
         return $table
             ->query(
-                Stock::whereStoreId(auth()->user()->store->id)
+                Inventory::whereStoreId(auth()->user()->store->id)
             )
             ->columns([
                 TextColumn::make('product.title')->searchable(),
                 TextColumn::make('quantity')->numeric()->default(0),
                 TextColumn::make('total_sales')->numeric()->counts('sales')->default(fn($record) => $record->sales->count()),
-                TextColumn::make('sale.quantity')
-                            ->label('Quantity Sold')
+                TextColumn::make('generated_sales')
+                            // ->label('')
                             ->numeric()
-                            ->default(function(Stock $record){
-                                return $record->sales()->sum('quantity');
+                            ->default(function(Inventory $record){
+                                return $record->sales->sum( fn($e) => (($e->sale_price) * $e->quantity) );
                             }),
             ])->actions([
                 Action::make('view_product')
@@ -47,7 +47,7 @@ class ProductsInStore extends BaseWidget
                         ->label('View')
                         ->icon('heroicon-o-eye')
                         ->accessSelectedRecords()
-                        ->url(function(Stock $record){
+                        ->url(function(Inventory $record){
                             return ViewProduct::getUrl(['record' => $record->product->id]);
                         }),
                 ActionGroup::make([

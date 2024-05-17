@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\OrderResource\Pages;
 
 use App\Filament\Resources\OrderResource;
+use App\Models\Order;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use Filament\Support\Colors\Color;
 
 class ViewOrder extends ViewRecord
 {
@@ -14,6 +16,21 @@ class ViewOrder extends ViewRecord
     {
         return [
             // stats for order widgets
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\Action::make('Print Reciept')
+                ->icon('heroicon-o-printer')
+                ->visible(fn(Order $record) => $record->status === 'completed')
+                ->color(Color::Purple)
+                ->url(fn(Order $record) => route('show-reciept', ['order' => $record->id])),
+            Actions\Action::make('Print Invoice')
+                ->icon('heroicon-o-printer')
+                ->color('primary')
+                ->url(fn(Order $record) => route('show-invoice', ['order' => $record->id])),
         ];
     }
 }

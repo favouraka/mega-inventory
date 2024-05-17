@@ -26,9 +26,9 @@ class StoreResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
 
-    protected static ?string $navigationGroup = 'Store';
+    protected static ?string $navigationGroup = 'Inventory';
 
-    protected static ?string $navigationLabel = 'Manage Stores';
+    protected static ?string $navigationLabel = 'All Stores';
 
     // protected static ?string $title = 'Store Resource'; // Added static property
 
@@ -62,7 +62,7 @@ class StoreResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->visible(auth()->user()->is_admin),
                 ViewAction::make()
                     ->form([
                         TextInput::make('name')->required(),

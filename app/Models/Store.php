@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Stock;
+// use App\Models\Stock;
 
 class Store extends Model
 {
@@ -12,8 +12,8 @@ class Store extends Model
 
     protected $guarded = [];
 
-    public function stocks()
+    public function inventories()
     {
-        return $this->hasMany(Stock::class);
+        return $this->hasMany(Inventory::class);
     }
 }

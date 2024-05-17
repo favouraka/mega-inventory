@@ -31,8 +31,8 @@ return new class extends Migration
             $table->string('manufacturer')->nullable();
             $table->date('production_date')->nullable();
             $table->date('expiry_date')->nullable();
-            $table->decimal('price_cfa',8,2)->nullable();
-            $table->decimal('price_ngn',8,2)->nullable();
+            $table->bigInteger('price_cfa')->nullable();
+            $table->bigInteger('price_ngn')->nullable();
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ProductResource\RelationManagers;
 
+use App\Models\Inventory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class StocksRelationManager extends RelationManager
 {
-    protected static string $relationship = 'stocks';
+    protected static string $relationship = 'inventories';
 
     public function form(Form $form): Form
     {
@@ -33,6 +34,10 @@ class StocksRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('store.name'),
                 TextColumn::make('quantity'),
+                TextColumn::make('total_amount')
+                        ->formatStateUsing( fn(Inventory $record) => ($record->sum(fn ($e) => $e->quantity * $e->sale_price)))
+                        ->numeric(decimalPlaces:2)
+                        // ->default('0')
             ])
             ->filters([
                 //

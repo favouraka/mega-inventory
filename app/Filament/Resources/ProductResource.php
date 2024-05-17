@@ -115,7 +115,7 @@ class ProductResource extends Resource
                 TextEntry::make('title'),
                 TextEntry::make('description'),
                 ImageEntry::make('images')->square(),
-            ]),
+            ])->columns(2),
             ComponentsSection::make('Category')->schema([
                 TextEntry::make('category.name'),
             ]),
@@ -124,15 +124,15 @@ class ProductResource extends Resource
                 TextEntry::make('width')->label('Width in cm'),
                 TextEntry::make('length')->label('Length in cm'),
                 TextEntry::make('height')->label('Height in cm'),
-            ]),
+            ])->columns(2),
             ComponentsSection::make('Stock Information')->schema([
                 TextEntry::make('manufacturer')->label('Manufacturer'),
                 TextEntry::make('model')->label('Model'),
                 TextEntry::make('brand')->label('Brand'),
                 TextEntry::make('production_date')->label('Production Date')->dateTime(),
                 TextEntry::make('expiry_date')->label('Expiry Date')->dateTime(),
-                RepeatableEntry::make('stocks')
-                    ->columnSpan('full')
+                RepeatableEntry::make('inventories')
+                    ->columns(2)
                     ->schema([
                         TextEntry::make('store.name'),
                         TextEntry::make('quantity'),
@@ -166,9 +166,9 @@ class ProductResource extends Resource
                     ->label('Add to Inventory')
                     ->icon('heroicon-o-plus')
                     ->accessSelectedRecords()
-                    ->hidden(function(array $data, Product $record){
-                       return $record->stocks()->whereStoreId(auth()->user()->store->id)->count() ;
-                    })
+                    ->hidden(fn(array $data, Product $record) =>
+                       $record->inventories()->whereStoreId(auth()->user()->store->id)->count() 
+                    )
                     ->createAnother(false)
                     ->modalHeading('Add product to inventory')
                     ->successNotificationTitle('Saved successfully')
@@ -176,12 +176,12 @@ class ProductResource extends Resource
                         TextInput::make('store')
                                 ->default(auth()->user()->store->name)->disabled(),
                         TextInput::make('quantity')->numeric()->required(),
-                    ])->action(function(array $data, Product $record) {
-                            auth()->user()->store->stocks()->create([
+                    ])->action(fn(array $data, Product $record) => 
+                            auth()->user()->store->inventories()->create([
                                 'quantity' => $data['quantity'],
                                 'product_id' => $record->id
-                            ]);
-                    }),
+                            ])
+                    ),
                Tables\Actions\EditAction::make()->visible(auth()->user()->is_admin),
             ])
             ->bulkActions([

@@ -38,23 +38,23 @@
                             @foreach ($this->results as $item)                                
                                 <div class="flex flex-col gap-4 p-4 md:flex-row">
                                     @php
-                                        $existingStock = $item->stocks()->whereStoreId(auth()->user()->store_id)->first();
+                                        $existingInventory = $item->inventories()->whereStoreId(auth()->user()->store_id)->first();
                                     @endphp
                                     <div class="flex-1">
                                         <p class="text-lg">{{$item->title}} </p>
                                         <span class="block font-semibold">[NGN {{$item->price_ngn}}]</span>
-                                        @if ($existingStock)                                            
+                                        @if ($existingInventory)                                            
                                             <p class="text-base text-gray-500 uppercase">
-                                                Quantity: {{ $existingStock->quantity }}
+                                                Quantity: {{ $existingInventory->quantity }}
                                             </p>
                                         @endif
                                     </div>
                                     <div class="">
-                                        @if ($existingStock)
-                                            {{-- stock alrady exists --}}
-                                            @if ($this->orderItems->where('stock_id', $existingStock?->id)->count())
+                                        @if ($existingInventory)
+                                            {{-- inventory alrady exists --}}
+                                            @if ($this->orderItems->where('inventory_id', $existingInventory?->id)->count())
                                                 <x-filament::button 
-                                                    wire:click="removeFromCart({{$existingStock->id}})"
+                                                    wire:click="removeFromCart({{$existingInventory->id}})"
                                                     icon="heroicon-o-minus" 
                                                     outlined
                                                     color="danger">
@@ -62,7 +62,7 @@
                                                 </x-filament::button>
                                             @else
                                                 <x-filament::button 
-                                                    wire:click="addItem({{$existingStock->id}})"
+                                                    wire:click="addItem({{$existingInventory->id}})"
                                                     icon="heroicon-o-plus" 
                                                     color="success">
                                                     Add
@@ -97,7 +97,7 @@
                             {{-- name  --}}
                             <div class="flex-grow flex-1">
                                 <span class="flex-grow text-xs font-thin">Product name:</span>
-                                <p class="text-lg font-bold">{{$sale->stock->product->title}}</p>
+                                <p class="text-lg font-bold">{{$sale->inventory->product->title}}</p>
                             </div>
                                     
                             {{-- article fields --}}
@@ -108,22 +108,22 @@
                                         icon="heroicon-o-minus"
                                         color="danger"
                                         :disabled="$sale->quantity <= 1"
-                                        wire:click="subtractItem({{$sale->stock_id}})" />
+                                        wire:click="subtractItem({{$sale->inventory_id}})" />
     
-                                    <span name="quantity-{{$sale->stock_id}}" 
+                                    <span name="quantity-{{$sale->inventory_id}}" 
                                         @class([
                                             'p-2 px-4 rounded-md', 
-                                            'text-red border border-red' => $errors->has('stock_quantity_'.$sale->stock_id)
+                                            'text-red border border-red' => $errors->has('inventory_quantity_'.$sale->inventory_id)
                                             ])
                                         contenteditable=""
                                             x-on:blur.prevent="($evt) => {
-                                            $wire.updateQuantity(@js($sale->stock_id), $evt.target.innerText)
+                                            $wire.updateQuantity(@js($sale->inventory_id), $evt.target.innerText)
                                         }" class="" x-text="@js($sale['quantity'])"></span>
     
                                     <x-filament::icon-button 
                                         icon="heroicon-o-plus"
                                         color="success"
-                                        wire:click="addItem({{$sale->stock_id}})" />
+                                        wire:click="addItem({{$sale->inventory_id}})" />
                                 </div>
                             </div>
                             {{-- price --}}
@@ -139,7 +139,7 @@
                                         value="{{$sale->sale_price}}"
                                         disabled 
                                         x-on:change.prevent="($evt) => {
-                                            $wire.updatePrice(@js($sale->stock_id), $evt.target.value);
+                                            $wire.updatePrice(@js($sale->inventory_id), $evt.target.value);
                                         }" 
                                     />
                                 
@@ -147,14 +147,14 @@
                                         <x-filament::icon-button
                                             icon="heroicon-o-arrow-path"
                                             color="gray" 
-                                            wire:click='resetPrice({{$sale->stock->id}})'/>
+                                            wire:click='resetPrice({{$sale->inventory->id}})'/>
                                     </x-slot>
                                 </x-filament::input.wrapper>
                             </div>
 
                             <x-filament::link 
                                 color="danger" 
-                                wire:click="removeFromCart({{$sale->stock_id}})"
+                                wire:click="removeFromCart({{$sale->inventory_id}})"
                                 icon="heroicon-o-trash">
                                     Remove
                             </x-filament::link>

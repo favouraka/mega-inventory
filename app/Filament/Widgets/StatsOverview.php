@@ -14,7 +14,7 @@ class StatsOverview extends BaseWidget
     {
         return [
             //
-            Stat::make('Available stock in store', auth()->user()->store->stocks->sum('quantity')),
+            Stat::make('Available stock in store', auth()->user()->store->inventories->sum('quantity')),
             Stat::make('Available products', Product::count()),
             Stat::make('Total sales this week', Sale::where('created_at','>=', Carbon::now()->subWeek())->count()),
         ];

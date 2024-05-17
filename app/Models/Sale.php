@@ -11,9 +11,9 @@ class Sale extends Model
 
     protected $guarded = [];
 
-    public function stock()
+    public function inventory()
     {
-        return $this->belongsTo(Stock::class);
+        return $this->belongsTo(Inventory::class);
     }
 
     public function order()

@@ -42,7 +42,7 @@ class Create extends Component implements HasActions, HasForms
                                     $query->where('title','like','%'.$search.'%')
                                         ->orWhere('upc_code','like','%'.$search.'%')
                                         ->orWhere('sku_code','like','%'.$search.'%');
-                                })->latest()->take(6)->get()->sortByDesc(fn($products) => $products->stocks()->first()?->quantity);
+                                })->latest()->take(6)->get()->sortByDesc(fn($products) => $products->inventories()->first()?->quantity);
     }
 
     public function createAction(): Action
@@ -114,7 +114,7 @@ class Create extends Component implements HasActions, HasForms
                 Cart::content()
                     ->map( function($item){
                             return [
-                                'stock_id' => $item->stock_id,
+                                'inventory_id' => $item->inventory_id,
                                 'quantity' => $item->quantity,
                                 'sale_price' => $item->sale_price,
                                 'stock_price' => $item->stock_price,
@@ -138,10 +138,10 @@ class Create extends Component implements HasActions, HasForms
     {
         // checks if Sale models in cart have the adequate quantity
         Cart::content()->each(function($item){
-            $stock = auth()->user()->store->stocks()->find($item->stock_id);
+            $stock = auth()->user()->store->inventories()->find($item->inventory_id);
             if($stock->quantity < $item->quantity){
                 $errorMessage = 'The quantity of '.$stock->product->title.' is not enough';
-                $this->addError('stock_quantity_'.$item->stock_id, $errorMessage);
+                $this->addError('stock_quantity_'.$item->inventory_id, $errorMessage);
                 Notification::make()->title('Not enough products in stock')
                     ->body($errorMessage)
                     ->danger()

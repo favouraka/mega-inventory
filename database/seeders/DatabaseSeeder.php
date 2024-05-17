@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\ProductSeeder;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Inventory;
 use App\Models\Stock;
 use App\Models\Store;
 use App\Models\Product;
@@ -33,7 +34,7 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
         ])->for(
                 Store::factory()->has(
-                        Stock::factory()->for(
+                        Inventory::factory()->for(
                             Product::inRandomOrder()->first()
                     ))->count(5)->create()->first(), 'store'
                 )->create();

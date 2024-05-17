@@ -16,7 +16,9 @@ class Store extends Page
 
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
 
-    protected static ?string $navigationGroup = 'Store';
+    protected static ?string $navigationGroup = 'Inventory';
+    
+    protected static ?string $navigationLabel = 'My Store';
 
     protected static string $view = 'filament.pages.store';
 

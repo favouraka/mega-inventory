@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Services;
-use App\Models\Stock;
+use App\Models\Inventory as Stock;
 
 class CartService
 {
@@ -28,7 +28,7 @@ class CartService
      * @return bool Returns true if the product exists on the cart, false otherwise.
      */
     function exists($stock): bool {
-        return $this->items->where('stock_id', $stock)->count() ? true : false;
+        return $this->items->where('inventory_id', $stock)->count() ? true : false;
     }
 
     /**
@@ -42,9 +42,9 @@ class CartService
         // check if sale exists on cart
 
         
-        if (collect($this->items)->where('stock_id', $stock->id)->isNotEmpty()) {
+        if (collect($this->items)->where('inventory_id', $stock->id)->isNotEmpty()) {
             $this->items = collect($this->items)->map(function ($item) use ($stock, $quantity) {
-                if ($item['stock_id'] === $stock->id) {
+                if ($item['inventory_id'] === $stock->id) {
                     $item['quantity'] += $quantity;
                 }
                 return $item;
@@ -66,9 +66,9 @@ class CartService
     {
         $stock = is_int($stock) ? Stock::find($stock) : $stock;
 
-        if (collect($this->items)->where('stock_id', $stock->id)->isNotEmpty()) {
+        if (collect($this->items)->where('inventory_id', $stock->id)->isNotEmpty()) {
             $this->items = collect($this->items)->map(function ($item) use ($stock, $quantity) {
-                if ($item['stock_id'] === $stock->id) {
+                if ($item['inventory_id'] === $stock->id) {
                     $item['quantity'] = $quantity;
                 }
                 return $item;
@@ -100,11 +100,11 @@ class CartService
     public function remove(Stock |int $stock)
     {
         $stock = is_int($stock) ? Stock::find($stock) : $stock;
-        if(collect($this->items)->where('stock_id', $stock->id)->isEmpty()) {
+        if(collect($this->items)->where('inventory_id', $stock->id)->isEmpty()) {
             return;
         }
         $this->items = collect($this->items)->filter(function($item) use($stock){
-                            return $item['stock_id'] !== $stock->id;
+                            return $item['inventory_id'] !== $stock->id;
                         });
 
         session()->put(self::DEFAULT_CART, $this->items);        
@@ -116,7 +116,7 @@ class CartService
         $stock = is_int($stock) ? Stock::find($stock) : $stock;
         $this->items = collect($this->items)
                         ->filter(function ($item) use ($stock, $quantity) {
-                            if ($item['stock_id'] === $stock->id) {
+                            if ($item['inventory_id'] === $stock->id) {
                                 $item['quantity'] -= $quantity;
                             }
                             return $item;
@@ -130,7 +130,7 @@ class CartService
         $stock = is_int($stock) ? Stock::find($stock) : $stock;
         $this->items = collect($this->items)
                         ->map(function ($item) use ($stock, $price) {
-                            if ($item['stock_id'] === $stock->id) {
+                            if ($item['inventory_id'] === $stock->id) {
                                 $item['sale_price'] = $price;
                             }
                             return $item;
@@ -144,7 +144,7 @@ class CartService
         $stock = is_int($stock) ? Stock::find($stock) : $stock;
         $this->items = collect($this->items)
                         ->map(function ($item) use ($stock) {
-                            if ($item['stock_id'] === $stock->id) {
+                            if ($item['inventory_id'] === $stock->id) {
                                 $item['sale_price'] = $stock->product->price_ngn;
                             }
                             return $item;

@@ -25,11 +25,20 @@ class ListOrders extends ListRecords
                     ->visible(Cart::content()->count()),
             Actions\Action::make('create_order')
                             ->label('New Order')
+                            ->modalCloseButton(true)
+                            ->modalHeading(fn() => Cart::content()->count() ? 'You have some items in your cart, would you like to continue' : 'Create a new order')
+                            ->modalFooterActions([
+                                Actions\Action::make('continue_order')
+                                                ->color(Color::Amber)
+                                                ->action(fn() => redirect(NewOrder::getUrl()))
+                                                ->visible(Cart::content()->count()),
+                                Actions\Action::make('create_new_order')
+                                                ->action(function() {
+                                                    Cart::clear();
+                                                    return redirect(NewOrder::getUrl());
+                                                }),
+                            ])
                             ->requiresConfirmation()
-                            ->action(function() {
-                                Cart::clear();
-                                return redirect(NewOrder::getUrl());
-                            })
                             ->icon('heroicon-o-shopping-cart'),
         ];
     }

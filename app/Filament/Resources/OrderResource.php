@@ -21,6 +21,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Support\Colors\Color;
+
+
 
 class OrderResource extends Resource
 {
@@ -39,24 +42,54 @@ class OrderResource extends Resource
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema([
-            Grid::make([
-                'lg' => 2,
-                'sm' => 1,
-            ])->schema([
+            Grid::make(2)
+            ->columns(2)
+            ->schema([
                     Section::make('Store Information')   
                             ->schema([
                                 TextEntry::make('store.name')->label('Store Name'),
                                 TextEntry::make('store.phone')->label('Phone'),
                                 TextEntry::make('store.address')->label('Address'),
-                            ]),
-                    Section::make('Customer Information')   
+                            ])->columnSpan(0),
+                    Section::make('Customer Information') 
+                    ->columnSpan(0)
                     ->schema([
                         TextEntry::make('customer_name'),
                         TextEntry::make('customer_phone'),
                         TextEntry::make('customer_email'),
                     ])            
-                ])
+                    ]),
+            Section::make('Payment Information')
+                    ->schema([
+                        TextEntry::make('amount_paid')->default(fn (Order $record) => '₦ '.self::calculateTotal($record))->numeric(),
+                        TextEntry::make('payment_method'),
+                        TextEntry::make('status')->badge()->color(fn(Order $record) => self::getBadgeColor($record)),
+                    ])
         ]);
+    }
+
+    private static function calculateTotal($record)
+    {
+        $sum = 0;
+        foreach ($record->sales as $key => $sale) {
+            # code...
+            $sum += $sale->quantity * $sale->sale_price;
+        }
+        return $sum;
+    }
+
+    private static function getBadgeColor($record)
+    {
+        $statusColors = [
+            // ...
+
+            'pending' => Color::Amber,
+            'processing' => Color::Blue,
+            'completed' => 'success',
+            'cancelled' => 'danger',
+        ];
+
+        return $statusColors[$record->status] ?? 'gray';
     }
 
     public static function table(Table $table): Table
