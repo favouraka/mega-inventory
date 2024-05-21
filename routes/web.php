@@ -26,10 +26,7 @@ use App\Livewire\Pages\Auth\Order\Create as CreateOrder;
 |
 */
 
-Route::get('/', function () {
-    // return view('pages.index');
-    return redirect(PagesDashboard::getUrl());
-});
+Route::get('/', fn () => redirect(PagesDashboard::getUrl()));
 
 
 // Route::prefix('dashboard')->name('dashboard.')->middleware('auth')

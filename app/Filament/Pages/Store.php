@@ -10,6 +10,7 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Pages\Page;
 use Filament\Support\Colors\Color;
+use App\Facades\Cart;
 
 class Store extends Page
 {
@@ -34,6 +35,7 @@ class Store extends Page
                         ->form([
                             Select::make('store_id')->label('Store')->options(ModelsStore::pluck('name','id'))->searchable()
                         ])->action(function(array $data){
+                            Cart::clear();
                             auth()->user()->update([
                                 'store_id' => $data['store_id']
                             ]);

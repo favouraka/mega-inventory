@@ -131,13 +131,7 @@ class ProductResource extends Resource
                 TextEntry::make('brand')->label('Brand'),
                 TextEntry::make('production_date')->label('Production Date')->dateTime(),
                 TextEntry::make('expiry_date')->label('Expiry Date')->dateTime(),
-                RepeatableEntry::make('inventories')
-                    ->columns(2)
-                    ->schema([
-                        TextEntry::make('store.name'),
-                        TextEntry::make('quantity'),
-                    ]),
-            ]),
+            ])->columns(2),
             ComponentsSection::make('Pricing Information')->schema([
                 TextEntry::make('price_cfa')->label('Price in CFA')->numeric()->money('NGN'),
                 TextEntry::make('price_ngn')->label('Price in NGN')->numeric()->money('CFA'),

@@ -4,7 +4,11 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Filament\Facades\Filament;
-use Filament\Navigation\NavigationItem;;
+use Filament\Navigation\NavigationItem;
+use Filament\Support\Assets\AlpineComponent;
+use Filament\Support\Facades\FilamentAsset;
+
+;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        
+        FilamentAsset::register([
+            AlpineComponent::make('pdf-component', __DIR__ . '/../../resources/js/dist/components/pdf-component.js'),
+        ]);
     }
 }

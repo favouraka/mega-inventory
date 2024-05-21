@@ -33,3 +33,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import Quagga from '@ericblade/quagga2';
 window.Quagga = Quagga;
+
+
+import html2PDF from 'jspdf-html2canvas';
+window.html2PDF = html2PDF;

@@ -7,6 +7,7 @@ use App\Models\Order;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Colors\Color;
+use App\Filament\Pages\PrintReciept;
 
 class ViewOrder extends ViewRecord
 {
@@ -26,11 +27,11 @@ class ViewOrder extends ViewRecord
                 ->icon('heroicon-o-printer')
                 ->visible(fn(Order $record) => $record->status === 'completed')
                 ->color(Color::Purple)
-                ->url(fn(Order $record) => route('show-reciept', ['order' => $record->id])),
+                ->url(fn(Order $record) => PrintReciept::getUrl().'?reference='.$record->reference),
             Actions\Action::make('Print Invoice')
                 ->icon('heroicon-o-printer')
                 ->color('primary')
-                ->url(fn(Order $record) => route('show-invoice', ['order' => $record->id])),
+                // ->url(fn(Order $record) => route('show-invoice', ['order' => $record->id])),
         ];
     }
 }

@@ -31,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Blue,
             ])
+            ->darkMode(false)
             ->navigationGroups([
                 NavigationGroup::make()
                 ->label('Sales'),
