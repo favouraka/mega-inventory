@@ -28,7 +28,6 @@ class UserResource extends Resource
     protected static ?string $navigationGroup = 'Settings';
     protected static ?int $navigationSort = 1;
 
-
     // Filament 3.x supported with new fresh api
     public static function canCreate(): bool
     {
@@ -48,9 +47,17 @@ class UserResource extends Resource
                 TextInput::make('name')->required(),
                 TextInput::make('email')->required(),
                 TextInput::make('username')->required(),
+                Select::make('is_admin')
+                    ->label('Role')
+                    ->options([
+                        'staff' => 'Staff',
+                        'manager' => 'Sales Manager',
+                        'administrator' => 'Administrator'
+                    ])->required(),
                 Select::make('store_id')->required()->label('Store')->relationship('store', 'name'),
                 TextInput::make('password')
                 ->password()
+                ->columnStart(1)
                 ->requiredWith('password_confirmation')
                 // ->bail()
                 ->dehydrateStateUsing(fn ($state) => Hash::make($state))
