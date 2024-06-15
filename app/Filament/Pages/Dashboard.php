@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Resources\OrderResource\Widgets\OrderInfoWidget;
 use App\Filament\Widgets\StatsOverview;
 use App\Filament\Widgets\StoreOverview;
 use Filament\Pages\Page;
@@ -16,7 +17,7 @@ class Dashboard extends Page
     {
         return [
             StoreOverview::class,
-            // StatsOverview::class,
+            OrderInfoWidget::class,
         ];
     }
 }
