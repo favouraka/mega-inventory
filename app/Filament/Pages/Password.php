@@ -53,7 +53,7 @@ class Password extends Page implements HasForms,  HasActions
     {
         return Action::make('save')
             ->label('Change Password')
-            ->requiresConfirmation()
+            // ->requiresConfirmation()
             ->action(fn () => $this->updateUserPassword());
     }
 
