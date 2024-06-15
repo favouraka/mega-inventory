@@ -6,6 +6,8 @@ use App\Models\Order;
 use Carbon\Carbon;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 class OrderInfoWidget extends BaseWidget
 {
@@ -13,7 +15,9 @@ class OrderInfoWidget extends BaseWidget
     {
         return [
             //
-            Stat::make('Orders made this week', auth()->user()->orders()->where('created_at', '>=', Carbon::now()->subWeek())->count()),
+            Stat::make('Orders made this week', Order::whereHas('sales', function(EloquentBuilder $query){
+                        $query->where('store_id', auth()->user()->store->id);
+                    })->where('created_at', '>=', Carbon::now()->subWeek())->count()),
         ];
     }
 }
