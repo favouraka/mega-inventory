@@ -30,7 +30,7 @@ class ViewOrder extends ViewRecord
                 ->url(fn(Order $record) => PrintReciept::getUrl().'?reference='.$record->reference),
             Actions\Action::make('Print Invoice')
                 ->icon('heroicon-o-printer')
-                ->color('primary')
+                ->color('primary')->hidden(true)
                 // ->url(fn(Order $record) => route('show-invoice', ['order' => $record->id])),
         ];
     }

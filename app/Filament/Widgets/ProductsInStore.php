@@ -20,6 +20,8 @@ use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Filament\Notifications\Notification;
+
 
 class ProductsInStore extends BaseWidget
 {
@@ -50,6 +52,22 @@ class ProductsInStore extends BaseWidget
                         ->url(function(Inventory $record){
                             return ViewProduct::getUrl(['record' => $record->product->id]);
                         }),
+                Action::make('restock_product')
+                    ->color('success')
+                    ->label('Restock')
+                    ->icon('heroicon-o-arrow-path')
+                    ->accessSelectedRecords()
+                    ->form([
+                        TextInput::make('quantity')->numeric()->required(),
+                        TextInput::make('supplier'),
+                        TextInput::make('cost_price'),
+                    ])->action(function(array $data, Inventory $record){
+                            $record->update([
+                                'quantity' => ($record->quantity + $data['quantity'])
+                            ]);
+                            $record->restocks()->create($data);
+                            Notification::make()->title('Restocked Successfully!')->success()->send();
+                    }),
                 ActionGroup::make([
                     Action::make('view_in_order')
                         ->label('View Order')

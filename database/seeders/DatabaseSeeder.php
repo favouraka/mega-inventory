@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
         ]);
 
-        Store::factory()->count(5)->create();
+        Store::factory()->count(2)->create();
 
         User::factory(12)->for(Store::inRandomOrder()->first(), 'store')->create();
         // 
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Administrator',
             'username' => 'administrator',
             'email' => 'admin@dannalisglobal.com',
-            'is_admin' => true,
+            'is_admin' => 'administrator',
         ])->for(
                 Store::factory()->has(
                         Inventory::factory()->for(

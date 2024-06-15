@@ -26,6 +26,11 @@ class Settings extends Page implements HasForms,  HasActions
 
     public ?array $data = [];
 
+    public static function canAccess(): bool
+    {
+        return (auth()->user()->is_admin == 'administrator' || auth()->user()->is_admin == 'manager');
+    }
+
     public function mount()
     {
         $this->form->fill(auth()->user()->toArray());

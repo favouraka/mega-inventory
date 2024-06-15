@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('store_id')->constrained('stores');
-            $table->boolean('is_admin')->default(false); // Add the is_admin column            
+            $table->foreignId('store_id');
+            $table->enum('is_admin', ['staff', 'manager', 'administrator'])->nullable(); // Add the is_admin column            
             $table->rememberToken();
             $table->timestamps();
         });

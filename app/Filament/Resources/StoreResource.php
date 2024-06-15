@@ -7,6 +7,7 @@ use App\Filament\Resources\StoreResource\RelationManagers;
 use App\Models\Store;
 // use Filament\Actions\ViewAction;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -34,7 +35,7 @@ class StoreResource extends Resource
 
     public static function canCreate(): bool
     {
-        return  auth()->user()->is_admin && Store::count() <= 3;
+        return  (auth()->user()->is_admin == 'administrator' || auth()->user()->is_admin === 'manager') && Store::count() <= 3;
     }
 
     public static function form(Form $form): Form
@@ -46,6 +47,7 @@ class StoreResource extends Resource
                 TextInput::make('phone')->type('tel')->required(),
                 Textarea::make('address')->required(),
                 TextInput::make('country')->required()->maxLength(2),
+                FileUpload::make('logo')->image()->imageEditor(),
             ]);
     }
 
@@ -62,20 +64,21 @@ class StoreResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->visible(auth()->user()->is_admin),
+                Tables\Actions\EditAction::make()->visible(auth()->user()->is_admin == 'manager' || auth()->user()->is_admin == 'administrator'),
                 ViewAction::make()
                     ->form([
                         TextInput::make('name')->required(),
                         TextInput::make('phone')->type('tel')->required(),
                         Textarea::make('address')->required(),
                         TextInput::make('country')->required()->maxLength(2),
+                        FileUpload::make('logo')->image()->imageEditor(),
                     ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     
-                ]),
+                ])->visible(auth()->user()->is_admin == 'administrator'),
             ]);
     }
 
@@ -90,7 +93,7 @@ class StoreResource extends Resource
     {
         return [
             'index' => Pages\ListStores::route('/'),
-            // 'create' => Pages\CreateStore::route('/create'),
+            'create' => Pages\CreateStore::route('/create'),
             // 'edit' => Pages\EditStore::route('/{record}/edit'),
         ];
     }

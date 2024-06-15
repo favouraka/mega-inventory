@@ -32,7 +32,12 @@ class UserResource extends Resource
     // Filament 3.x supported with new fresh api
     public static function canCreate(): bool
     {
-        return  auth()->user()->is_admin && User::count() <= 5;
+        return  (auth()->user()->is_admin == 'administrator') && User::count() <= 5;
+    }
+
+    public static function canAccess(): bool
+    {
+        return (auth()->user()->is_admin == 'administrator' || auth()->user()->is_admin == 'manager');
     }
 
     public static function form(Form $form): Form
@@ -69,16 +74,20 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->hidden(!auth()->user()->is_admin),
+                Tables\Actions\EditAction::make()->visible(auth()->user()->is_admin == 'administrator'),
                 ViewAction::make()->icon('heroicon-o-eye'),
-                Action::make('change_password')
-                    ->hidden(!auth()->user()->is_admin)
-                    ->label('Change password')->icon('heroicon-o-key')->color('danger')->requiresConfirmation(),
+                Action::make('reset_password')
+                    ->visible(auth()->user()->is_admin == 'administrator')
+                    ->label('Reset password')
+                    ->icon('heroicon-o-key')
+                    ->color('danger')
+                    ->action( fn ( User $record) => $record->update(['password' => Hash::make('password')])  )
+                    ->requiresConfirmation()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ])->visible(auth()->user()->is_admin == 'administrator'),
             ]);
     }
 

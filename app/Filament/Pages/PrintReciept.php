@@ -8,6 +8,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Section;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\IconEntry\IconEntrySize;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Section as ComponentsSection;
 use Filament\Infolists\Components\TextEntry;
@@ -41,9 +42,9 @@ class PrintReciept extends Page
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('print')->icon('heroicon-o-printer')->color(Color::Blue)->action(fn () => $this->dispatch('print-file')),
+            Action::make('print')->icon('heroicon-o-printer')->color(Color::Blue)->action(fn () => $this->dispatch('print-file'))->hidden(true),
             Action::make('share')->icon('heroicon-o-share')->color(Color::Green)->action(fn () => $this->dispatch('share-file')),
-            Action::make('download')->icon('heroicon-o-cloud-arrow-down')->color(Color::Fuchsia)->action(fn () => $this->dispatch('download-file')),
+            Action::make('download')->icon('heroicon-o-cloud-arrow-down')->color(Color::Fuchsia)->action(fn () => $this->dispatch('download-file'))->hidden(true),
         ];  
     }
 
@@ -53,6 +54,7 @@ class PrintReciept extends Page
                     ->record($this->order)
                     ->columns(2)
                     ->schema([
+                        ImageEntry::make('store.logo')->height(120)->hiddenLabel(true)->columnSpanFull(),
                         TextEntry::make('reference')
                                 ->color('success'),
                         TextEntry::make('total_paid')

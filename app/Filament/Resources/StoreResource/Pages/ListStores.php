@@ -18,11 +18,11 @@ class ListStores extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->visible(auth()->user()->is_admin == 'administrator' || auth()->user()->is_admin == 'manager'),
             EditAction::make('change store')
-                        ->visible(auth()->user()->is_admin)
+                        ->visible(auth()->user()->is_admin == 'administrator' || auth()->user()->is_admin == 'manager')
                         ->label('Change Store Location')
-                        ->modalHeading('Change your curret store location')
+                        ->modalHeading('Change your current store location')
                         ->record(auth()->user())
                         ->color(Color::Fuchsia)
                         ->form([

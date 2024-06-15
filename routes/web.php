@@ -27,6 +27,7 @@ use App\Livewire\Pages\Auth\Order\Create as CreateOrder;
 */
 
 Route::get('/', fn () => redirect(PagesDashboard::getUrl()));
+Route::get('/login', fn () => redirect(PagesDashboard::getUrl()))->name('login');
 
 
 // Route::prefix('dashboard')->name('dashboard.')->middleware('auth')

@@ -7,6 +7,7 @@ use Filament\Facades\Filament;
 use Filament\Navigation\NavigationItem;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Facades\FilamentAsset;
+use Illuminate\Database\Eloquent\Model;
 
 ;
 
@@ -27,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Model::unguard();
+        
         FilamentAsset::register([
             AlpineComponent::make('pdf-component', __DIR__ . '/../../resources/js/dist/components/pdf-component.js'),
         ]);

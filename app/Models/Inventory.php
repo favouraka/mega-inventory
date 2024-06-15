@@ -43,5 +43,10 @@ class Inventory extends Model
     {
         return $this->hasMany(Sale::class);
     }
+
+    public function restocks()
+    {
+        return $this->hasMany(Restock::class);
+    }
     
 }
