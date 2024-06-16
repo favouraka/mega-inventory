@@ -95,6 +95,7 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(Order::where('store_id', auth()->user()->store_id))
             ->columns([
                 //
                 TextColumn::make('customer_name')->searchable(),
