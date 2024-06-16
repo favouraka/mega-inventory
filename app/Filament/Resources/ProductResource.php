@@ -4,13 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\Pages\ViewProduct;
-use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Filament\Resources\ProductResource\RelationManagers\StocksRelationManager;
-use App\Filament\Resources\UserResource\Pages\ViewUsers;
-use App\Filament\Widgets\StatsOverview;
 use App\Models\Product;
-use Filament\Actions\ViewAction;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
@@ -18,22 +13,15 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\ImageEntry;
-use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Section as ComponentsSection;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
-use Filament\Tables\Actions\ViewAction as ActionsViewAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\QueryBuilder;
-use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductResource extends Resource
 {
@@ -62,7 +50,7 @@ class ProductResource extends Resource
                                 ->relationship('category','name')
                                 ->searchable()->required()
                                 ->createOptionForm([
-                                        TextInput::make('name'),
+                                        TextInput::make('name')->label('Category name'),
                                     ]),
                         ]),
                 //
@@ -70,24 +58,24 @@ class ProductResource extends Resource
                 Section::make('Shipping Information')
                         ->columns(2)
                         ->schema([
-                            TextInput::make('weight')->label('Weight in grams')->type('number')->required(),
-                            TextInput::make('width')->label('Width in cm')->type('number')->required(),
-                            TextInput::make('length')->label('Length in cm')->type('number')->required(),
-                            TextInput::make('height')->label('Height in cm')->type('number')->required(),
+                            TextInput::make('weight')->label('Weight in grams')->type('number'),
+                            TextInput::make('width')->label('Width in cm')->type('number'),
+                            TextInput::make('length')->label('Length in cm')->type('number'),
+                            TextInput::make('height')->label('Height in cm')->type('number'),
                         ]),
                 // stock information section
 
                 Section::make('Stock Information')
                         ->columns(2)
                         ->schema([
-                            TextInput::make('upc_code')->label('UPC Code')->type('number')->required(),
-                            TextInput::make('sku_code')->label('SKU Code')->required(),
-                            TextInput::make('brand')->required(),
-                            TextInput::make('model')->required(),
-                            TextInput::make('size')->required(),
-                            TextInput::make('color')->required(),
-                            TextInput::make('batch')->required(),
-                            TextInput::make('manufacturer')->required(),
+                            TextInput::make('upc_code')->label('UPC Code')->type('number'),
+                            TextInput::make('sku_code')->label('SKU Code'),
+                            TextInput::make('brand'),
+                            TextInput::make('model'),
+                            TextInput::make('size'),
+                            TextInput::make('color'),
+                            TextInput::make('batch'),
+                            TextInput::make('manufacturer'),
                             TextInput::make('production_date')->label('Production Date')->type('date')->required(),
                             TextInput::make('expiry_date')->label('Expiry Date')->type('date')->required(),
                         ]),

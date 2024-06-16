@@ -50,7 +50,7 @@ class Create extends Component implements HasActions, HasForms
         return Action::make('create')
                         ->icon('heroicon-o-credit-card')
                         ->label('Place New Order')
-                        ->modalHeading('Add customr details')
+                        ->modalHeading('Add customer details')
                         ->modalDescription('Please provide customer details to complete the order')
                         ->modalIcon('heroicon-o-user-plus')
                         ->color('info')

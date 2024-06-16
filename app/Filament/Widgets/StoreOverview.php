@@ -13,7 +13,7 @@ class StoreOverview extends BaseWidget
             //
             Stat::make('Store name', auth()->user()->store->name),
             Stat::make('Total products in this location', auth()->user()->store->inventories->count()),
-            Stat::make('Total stock avaialable', auth()->user()->store->inventories->sum('quantity')),
+            Stat::make('Total stock available', auth()->user()->store->inventories->sum('quantity')),
         ];
     }
 }
