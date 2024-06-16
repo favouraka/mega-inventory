@@ -58,11 +58,13 @@ class UserResource extends Resource
                 TextInput::make('password')
                 ->password()
                 ->columnStart(1)
+                ->confirmed()
+                ->revealable()
                 ->requiredWith('password_confirmation')
                 // ->bail()
                 ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                 ->dehydrated(fn ($state) => filled($state)),
-                TextInput::make('password_confirmation')->confirmed('password')->password()->default('password'),
+                TextInput::make('password_confirmation')->password()->revealable()->dehydrated(false),
             ]);
     }
     

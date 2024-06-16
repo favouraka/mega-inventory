@@ -29,7 +29,7 @@ class Store extends Page
             EditAction::make('change store')
                         ->visible(auth()->user()->is_admin)
                         ->label('Change Store Location')
-                        ->modalHeading('Change your curret store location')
+                        ->modalHeading('Change your current store location')
                         ->record(auth()->user())
                         ->color(Color::Fuchsia)
                         ->form([

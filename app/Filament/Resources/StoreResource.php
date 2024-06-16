@@ -35,7 +35,7 @@ class StoreResource extends Resource
 
     public static function canCreate(): bool
     {
-        return  (auth()->user()->is_admin == 'administrator' || auth()->user()->is_admin === 'manager') && Store::count() <= 3;
+        return  (auth()->user()->is_admin == 'administrator' || auth()->user()->is_admin === 'manager') && Store::count() <= 5;
     }
 
     public static function form(Form $form): Form

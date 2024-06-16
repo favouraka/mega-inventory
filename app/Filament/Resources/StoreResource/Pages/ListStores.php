@@ -6,6 +6,7 @@ use App\Filament\Resources\StoreResource;
 use App\Models\Store;
 use Filament\Actions;
 use Filament\Actions\EditAction;
+use App\Filament\Widgets\StoreOverview;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ListRecords;
@@ -32,6 +33,18 @@ class ListStores extends ListRecords
                                 'store_id' => $data['store_id']
                             ]);
                         })
+        ];
+    }
+
+     /**
+     * Get the header widgets for the page.
+     *
+     * @return array
+     */
+    public function getHeaderWidgets(): array
+    {
+        return [
+            StoreOverview::class,
         ];
     }
 }

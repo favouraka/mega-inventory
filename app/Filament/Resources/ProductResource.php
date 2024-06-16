@@ -101,7 +101,7 @@ class ProductResource extends Resource
         return $infolist->schema([
             ComponentsSection::make('Product Information')->schema([                
                 TextEntry::make('title'),
-                TextEntry::make('description'),
+                TextEntry::make('description')->html(),
                 ImageEntry::make('images')->square(),
             ])->columns(2),
             ComponentsSection::make('Category')->schema([
