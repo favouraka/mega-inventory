@@ -31,7 +31,7 @@ class UserResource extends Resource
     // Filament 3.x supported with new fresh api
     public static function canCreate(): bool
     {
-        return  (auth()->user()->is_admin == 'administrator') && User::count() <= 5;
+        return  (auth()->user()->is_admin == 'administrator') && User::count() <= 6;
     }
 
     public static function canAccess(): bool
