@@ -43,13 +43,14 @@ class RestockResource extends Resource
         return $table
             ->query(Restock::whereHas('inventory' , function (Builder $query) {
                 $query->where('store_id', auth()->user()->store->id);
-            }))
+            })->latest())
             ->columns([
                 //
                 TextColumn::make('inventory.product.title')->searchable(),
                 TextColumn::make('quantity'),
                 TextColumn::make('cost_price'),
                 TextColumn::make('supplier'),
+                TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([
                 //

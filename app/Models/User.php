@@ -46,7 +46,6 @@ class User extends Authenticatable implements FilamentUser
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'is_admin' => 'boolean'
     ];
     // 
     public function store()
@@ -64,6 +63,6 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->is_admin !== null;
+        return $this->is_admin !== 'customer';
     }
 }

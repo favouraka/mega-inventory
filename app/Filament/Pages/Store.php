@@ -27,7 +27,7 @@ class Store extends Page
     {
         return [
             EditAction::make('change store')
-                        ->visible(auth()->user()->is_admin)
+                        ->visible(auth()->user()->is_admin == 'administrator' || auth()->user()->is_admin == 'manager')
                         ->label('Change Store Location')
                         ->modalHeading('Change your current store location')
                         ->record(auth()->user())

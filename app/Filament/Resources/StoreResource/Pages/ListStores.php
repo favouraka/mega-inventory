@@ -18,6 +18,7 @@ class ListStores extends ListRecords
 
     protected function getHeaderActions(): array
     {
+        // dd(auth()->user()->is_admin);
         return [
             Actions\CreateAction::make()->visible(auth()->user()->is_admin == 'administrator' || auth()->user()->is_admin == 'manager'),
             EditAction::make('change store')

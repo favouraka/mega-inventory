@@ -38,6 +38,11 @@ class StoreResource extends Resource
         return  (auth()->user()->is_admin == 'administrator' || auth()->user()->is_admin === 'manager') && Store::count() <= 5;
     }
 
+    public static function canAccess(): bool
+    {
+        return (auth()->user()->is_admin == 'administrator' || auth()->user()->is_admin == 'manager');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
