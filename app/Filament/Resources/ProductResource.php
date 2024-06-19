@@ -39,7 +39,7 @@ class ProductResource extends Resource
                         ->schema([
                             TextInput::make('title')->label('Name')->required(),
                             RichEditor::make('description')->required(),
-                            FileUpload::make('images')->image()->disk('public')->multiple()->fetchFileInformation(false)->maxSize(1024)->maxFiles(5)->required(),
+                            FileUpload::make('images')->image()->disk('public')->multiple()->fetchFileInformation(false)->maxSize(8192)->maxFiles(5)->required(),
                         ]),
                 //
                 
