@@ -124,7 +124,7 @@
                                                     } else if (inputInteger >= @js($sale->inventory->quantity)){
                                                         input = @js($sale->inventory->quantity);
                                                     }
-                                                    console.log(input, inputInteger)
+                                                    {{-- console.log(input, inputInteger) --}}
                                                 } else {
                                                     input = 1;
                                                 }
