@@ -110,19 +110,35 @@
                                         :disabled="$sale->quantity <= 1"
                                         wire:click="subtractItem({{$sale->inventory_id}})" />
     
-                                    <span name="quantity-{{$sale->inventory_id}}" 
+                                    <span 
+                                        x-data="{
+                                            acceptInput: function($evt){
+                                                let input = $evt.target.innerText;
+                                                {{-- content should be type integer --}}
+                                                if(Number.isInteger(parseInt(input))){
+                                                    {{-- number is an integer --}}
+                                                } else {
+                                                    $evt.target.innerText = 1;
+                                                    input = 1;
+                                                }
+                                                $wire.updateQuantity(@js($sale->inventory_id), input);
+                                            }
+                                        }"
+                                        name="quantity-{{$sale->inventory_id}}" 
                                         @class([
                                             'p-2 px-4 rounded-md', 
                                             'text-red border border-red' => $errors->has('inventory_quantity_'.$sale->inventory_id)
                                             ])
-                                        contenteditable=""
-                                            x-on:blur.prevent="($evt) => {
-                                            $wire.updateQuantity(@js($sale->inventory_id), $evt.target.innerText)
-                                        }" class="" x-text="@js($sale['quantity'])"></span>
-    
+                                        contenteditable
+                                        x-on:keydown.enter="(evt) => {
+                                            evt.target.blur();
+                                        }"
+                                        x-on:blur.prevent="acceptInput" 
+                                        class="" x-text="@js($sale['quantity'])"></span>    
                                     <x-filament::icon-button 
                                         icon="heroicon-o-plus"
                                         color="success"
+                                        :disabled="$sale->quantity ==  $sale->inventory->quantity"
                                         wire:click="addItem({{$sale->inventory_id}})" />
                                 </div>
                             </div>
@@ -138,9 +154,9 @@
                                         type="number"
                                         value="{{$sale->sale_price}}"
                                         disabled 
-                                        x-on:change.prevent="($evt) => {
+                                        {{-- x-on:change.prevent="($evt) => {
                                             $wire.updatePrice(@js($sale->inventory_id), $evt.target.value);
-                                        }" 
+                                        }"  --}}
                                     />
                                 
                                     <x-slot name="suffix">
