@@ -121,8 +121,8 @@ class ProductResource extends Resource
                 TextEntry::make('expiry_date')->label('Expiry Date')->dateTime(),
             ])->columns(2),
             ComponentsSection::make('Pricing Information')->schema([
-                TextEntry::make('price_cfa')->label('Price in CFA')->numeric()->money('NGN'),
-                TextEntry::make('price_ngn')->label('Price in NGN')->numeric()->money('CFA'),
+                TextEntry::make('price_ngn')->label('Price in NGN')->numeric()->money('NGN'),
+                TextEntry::make('price_cfa')->label('Price in CFA')->numeric()->money('CFA'),
             ]),
         ]);
     }
@@ -130,6 +130,7 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(Product::orderBy('title', 'asc'))
             ->columns([
                 //
                 TextColumn::make('title')->searchable(),
