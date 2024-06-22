@@ -153,7 +153,7 @@ class ProductResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                CreateAction::make('Add to inventory')
+                Tables\Actions\Action::make('Add to inventory')
                     ->color('success')
                     ->label('Add to Inventory')
                     ->icon('heroicon-o-plus')
@@ -161,7 +161,7 @@ class ProductResource extends Resource
                     ->hidden(fn(array $data, Product $record) =>
                        $record->inventories()->whereStoreId(auth()->user()->store->id)->count() 
                     )
-                    ->createAnother(false)
+                    // ->createAnother(false)
                     ->modalHeading('Add product to inventory')
                     ->successNotificationTitle('Saved successfully')
                     ->form([
@@ -197,7 +197,7 @@ class ProductResource extends Resource
     {
         return [
             'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
+            // 'create' => Pages\CreateProduct::route('/create'),
             // 'edit' => Pages\EditProduct::route('/{record}/edit'),
             'view' => ViewProduct::route('/{record}/view'),
         ];
