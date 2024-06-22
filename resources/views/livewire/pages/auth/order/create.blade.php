@@ -117,10 +117,18 @@
                                                 {{-- content should be type integer --}}
                                                 if(Number.isInteger(parseInt(input))){
                                                     {{-- number is an integer --}}
+                                                    const inputInteger = parseInt(input);
+                                                    {{-- number must be greater than zero or less than max quantity in inventory --}}
+                                                    if(inputInteger < 1 ){
+                                                        input = 1;
+                                                    } else if (inputInteger >= @js($sale->inventory->quantity)){
+                                                        input = @js($sale->inventory->quantity);
+                                                    }
+                                                    console.log(input, inputInteger)
                                                 } else {
-                                                    $evt.target.innerText = 1;
                                                     input = 1;
                                                 }
+                                                $evt.target.innerText = input;
                                                 $wire.updateQuantity(@js($sale->inventory_id), input);
                                             }
                                         }"
