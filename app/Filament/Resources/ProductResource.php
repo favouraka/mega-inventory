@@ -39,7 +39,16 @@ class ProductResource extends Resource
                         ->schema([
                             TextInput::make('title')->label('Name')->required(),
                             RichEditor::make('description')->required(),
-                            FileUpload::make('images')->image()->disk('public')->multiple()->fetchFileInformation(false)->maxSize(8192)->maxFiles(5)->required(),
+                            FileUpload::make('images')->image()
+                                        ->disk('public')->multiple()
+                                        ->fetchFileInformation(false)
+                                        // ->imageResizeMode('contain')
+                                        // ->imageCropAspectRatio('1:1')
+                                        // ->imageResizeTargetWidth('1024')
+                                        // ->imageResizeTargetHeight('1024')
+                                        ->maxSize(8192)
+                                        ->maxFiles(5)
+                                        ->required(),
                         ]),
                 //
                 
@@ -188,7 +197,7 @@ class ProductResource extends Resource
     {
         return [
             'index' => Pages\ListProducts::route('/'),
-            // 'create' => Pages\CreateProduct::route('/create'),
+            'create' => Pages\CreateProduct::route('/create'),
             // 'edit' => Pages\EditProduct::route('/{record}/edit'),
             'view' => ViewProduct::route('/{record}/view'),
         ];
