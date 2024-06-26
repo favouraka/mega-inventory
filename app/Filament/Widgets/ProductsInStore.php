@@ -36,7 +36,7 @@ class ProductsInStore extends BaseWidget
             ->columns([
                 TextColumn::make('product.title')->searchable(),
                 TextColumn::make('product.carton_qty')->label('Quantity in carton')->numeric()->default(0),
-                TextColumn::make('quantity')->numeric()->default(0),
+                TextColumn::make('quantity')->label('Stock quantity')->numeric()->default(0),
                 TextColumn::make('qty_pieces')->numeric()->default(0),
                 TextColumn::make('total_sales')->numeric()->counts('sales')->default(fn($record) => $record->sales->count()),
                 TextColumn::make('generated_sales')
