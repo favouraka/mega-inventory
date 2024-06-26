@@ -145,7 +145,7 @@ class ProductResource extends Resource
             ->columns([
                 //
                 TextColumn::make('title')->searchable(),
-                TextColumn::make('carton_qty'),
+                TextColumn::make('carton_qty')->label('Products in carton'),
                 ImageColumn::make('images')->default('Not Available'),
                 TextColumn::make('price_ngn')->label('Price (₦)'),
                 TextColumn::make('price_cfa')->label('Price (₣)'),
