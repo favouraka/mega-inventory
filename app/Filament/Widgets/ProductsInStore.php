@@ -36,6 +36,7 @@ class ProductsInStore extends BaseWidget
             ->columns([
                 TextColumn::make('product.title')->searchable(),
                 TextColumn::make('quantity')->numeric()->default(0),
+                TextColumn::make('qty_pieces')->numeric()->default(0),
                 TextColumn::make('total_sales')->numeric()->counts('sales')->default(fn($record) => $record->sales->count()),
                 TextColumn::make('generated_sales')
                             // ->label('')
@@ -45,13 +46,23 @@ class ProductsInStore extends BaseWidget
                             }),
             ])->actions([
                 Action::make('view_product')
-                        ->color('gray')
-                        ->label('View')
-                        ->icon('heroicon-o-eye')
-                        ->accessSelectedRecords()
-                        ->url(function(Inventory $record){
-                            return ViewProduct::getUrl(['record' => $record->product->id]);
-                        }),
+                    ->color('gray')
+                    ->label('View')
+                    ->icon('heroicon-o-eye')
+                    ->accessSelectedRecords()
+                    ->url(function(Inventory $record){
+                        return ViewProduct::getUrl(['record' => $record->product->id]);
+                    }),
+                Action::make('edit_inventory')
+                    ->color('warning')
+                    ->label('Edit')
+                    ->icon('heroicon-o-pencil-square')
+                    ->accessSelectedRecords()
+                    ->visible(auth()->user()->is_admin == 'administrator' || auth()->user()->is_admin == 'manager')
+                    ->form([
+                        TextInput::make('quantity')->default(fn($record) => ($record->quantity) )->numeric()->required(),
+                        TextInput::make('qty_pieces')->default(fn($record) => ($record->qty_pieces) )->numeric()->required(),
+                    ])->action(fn (array $data, Inventory $record) => $record->update($data)),
                 Action::make('restock_product')
                     ->color('success')
                     ->label('Restock')
@@ -63,9 +74,9 @@ class ProductsInStore extends BaseWidget
                         TextInput::make('cost_price'),
                     ])->action(function(array $data, Inventory $record){
                             $record->update([
-                                'quantity' => ($record->quantity + $data['quantity'])
+                                'quantity' => ($record->quantity + $data['quantity']),
                             ]);
-                            $record->restocks()->create($data);
+                            $record->restocks()->create([...$data, 'user_id' => auth()->user()->id,]);
                             Notification::make()->title('Restocked Successfully!')->success()->send();
                     }),
                 ActionGroup::make([
