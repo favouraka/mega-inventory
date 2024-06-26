@@ -49,7 +49,7 @@ class ProductResource extends Resource
                                         ->maxSize(8192)
                                         ->maxFiles(5)
                                         ->required(),
-                            TextInput::make('carton_qty')->label('Quantity in carton'),
+                            TextInput::make('carton_qty')->label('Quantity in carton')->required(),
                         ]),
                 //
                 
