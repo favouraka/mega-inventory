@@ -72,6 +72,7 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query( auth()->user()->is_admin == 'administrator' ? User::query() : User::where('is_admin', '<>', 'administrator') )
             ->columns([
                 //
                 TextColumn::make('name')->searchable(),
