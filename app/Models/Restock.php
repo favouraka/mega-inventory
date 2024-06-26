@@ -13,4 +13,9 @@ class Restock extends Model
     {
         return $this->belongsTo(Inventory::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

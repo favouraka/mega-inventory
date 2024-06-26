@@ -61,6 +61,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Order::class);
     }
 
+    public function restocks()
+    {
+        return $this->hasMany(Restock::class);
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->is_admin !== 'customer';

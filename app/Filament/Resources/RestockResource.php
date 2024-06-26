@@ -50,6 +50,7 @@ class RestockResource extends Resource
                 TextColumn::make('quantity'),
                 TextColumn::make('cost_price'),
                 TextColumn::make('supplier'),
+                TextColumn::make('user.name')->searchable(),
                 TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([
@@ -76,8 +77,8 @@ class RestockResource extends Resource
     {
         return [
             'index' => Pages\ListRestocks::route('/'),
-            'create' => Pages\CreateRestock::route('/create'),
-            'edit' => Pages\EditRestock::route('/{record}/edit'),
+            // 'create' => Pages\CreateRestock::route('/create'),
+            // 'edit' => Pages\EditRestock::route('/{record}/edit'),
         ];
     }
 }

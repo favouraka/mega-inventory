@@ -49,6 +49,7 @@ class ProductResource extends Resource
                                         ->maxSize(8192)
                                         ->maxFiles(5)
                                         ->required(),
+                            TextInput::make('carton_qty')->label('Quantity in carton'),
                         ]),
                 //
                 
@@ -112,6 +113,7 @@ class ProductResource extends Resource
                 TextEntry::make('title'),
                 TextEntry::make('description')->html(),
                 ImageEntry::make('images')->square(),
+                TextEntry::make('carton_qty')->label('Quantity in carton')->numeric(),
             ])->columns(2),
             ComponentsSection::make('Category')->schema([
                 TextEntry::make('category.name'),
@@ -143,6 +145,7 @@ class ProductResource extends Resource
             ->columns([
                 //
                 TextColumn::make('title')->searchable(),
+                TextColumn::make('carton_qty'),
                 ImageColumn::make('images')->default('Not Available'),
                 TextColumn::make('price_ngn')->label('Price (₦)'),
                 TextColumn::make('price_cfa')->label('Price (₣)'),
@@ -168,10 +171,12 @@ class ProductResource extends Resource
                         TextInput::make('store')
                                 ->default(auth()->user()->store->name)->disabled(),
                         TextInput::make('quantity')->numeric()->required(),
+                        TextInput::make('qty_pieces')->numeric()->required(),
                     ])->action(fn(array $data, Product $record) => 
                             auth()->user()->store->inventories()->create([
                                 'quantity' => $data['quantity'],
-                                'product_id' => $record->id
+                                'product_id' => $record->id,
+                                'qty_pieces' => $data['qty_pieces']
                             ])
                     ),
                Tables\Actions\EditAction::make()->visible(auth()->user()->is_admin),
