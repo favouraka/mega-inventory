@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('supplier')->nullable();
             $table->bigInteger('cost_price')->nullable();
             $table->integer('quantity');
-            $table->unsignedInteger('inventory_id')->constrained('inventories')->cascadeOnDelete();
+            $table->unsignedInteger('inventory_id')->constrained('inventories')->onDelete('cascade');
             $table->timestamps();
         });
     }
