@@ -151,6 +151,8 @@ class CartService
                         });      
 
         session()->put(self::DEFAULT_CART, $this->items);
+
+        return $stock->product->price_ngn;
     }
 
 

@@ -39,7 +39,7 @@ trait WithCart
 
     public function resetPrice($stockId)
     {
-        Cart::resetPrice($stockId);
+        return Cart::resetPrice($stockId);
     }
 
     public function subtractItem($stockId)

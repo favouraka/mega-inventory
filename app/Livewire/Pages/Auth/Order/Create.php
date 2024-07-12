@@ -162,6 +162,11 @@ class Create extends Component implements HasActions, HasForms
         return Cart::content()?->reverse();
     }
 
+    public function refreshOrders()
+    {
+        unset($this->orderItems);
+    }
+
     #[Layout('layouts.dashboard')]
     public function render()
     {

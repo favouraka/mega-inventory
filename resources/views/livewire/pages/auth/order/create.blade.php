@@ -1,11 +1,11 @@
 
 <section class="">
     
-    <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-x">
+    <div class="grid gap-4 divide-x sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         <div class="flex flex-col col-span-2 gap-4 p-4">
             {{-- search console --}}
             <article class="flex flex-col gap-2">
-                <div class="space-y-4 py-4">             
+                <div class="py-4 space-y-4">             
                     <label for="search" class="block font-light">Find products</label>
                     <x-filament::input.wrapper>
                         <x-filament::input
@@ -26,7 +26,7 @@
             {{-- search results --}}
             @if ($this->search)
                 @if ($this->results->count())                    
-                    <div wire:model.live='search' class="relative w-full p-4 border border-gray-50 rounded-lg">
+                    <div wire:model.live='search' class="relative w-full p-4 border rounded-lg border-gray-50">
                         <div class="flex justify-between">
                             <p class="pb-2 text-xs font-light">Search results for "{{$this->search}}"</p>
                             <x-filament::icon-button 
@@ -90,12 +90,12 @@
             {{-- items in new order --}}
             @if ($this->orderItems->count() > 0)
             <div class="border-t">
-                <p class="py-4 pb-2 text-xs  text-gray-500 font-light">Items in cart</p>
-                <div class="border border-green-700 divide-y rounded-md overflow-clip shadow-lg ">
-                    @foreach ($this->orderItems as $sale)
+                <p class="py-4 pb-2 text-xs font-light text-gray-500">Items in cart</p>
+                <div class="border border-green-700 divide-y rounded-md shadow-lg overflow-clip ">
+                    @foreach ($this->orderItems as $key => $sale)
                         <div class="flex flex-wrap gap-4 p-4">
                             {{-- name  --}}
-                            <div class="flex-grow flex-1">
+                            <div class="flex-1 flex-grow">
                                 <span class="flex-grow text-xs font-thin">Product name:</span>
                                 <p class="text-lg font-bold">{{$sale->inventory->product->title}}</p>
                             </div>
@@ -151,7 +151,19 @@
                                 </div>
                             </div>
                             {{-- price --}}
-                            <div class="">
+                            <div 
+                                x-init="
+                                    $watch('price', (value, oldValue) => {
+                                        if (value !== oldValue){
+                                            {{-- console.log('changed', value, oldValue); --}}
+                                            $wire.updatePrice({{$sale->inventory_id}}, value);
+                                        }
+                                    })
+                                "
+                                x-data="{
+                                    price: {{$sale->sale_price}}
+                                }"
+                                class="">
                                 {{-- <p class="block text-sm">Price:</p> --}}
                                 <x-filament::input.wrapper>
                                     <x-slot name="prefix">
@@ -160,18 +172,18 @@
                                 
                                     <x-filament::input
                                         type="number"
-                                        value="{{$sale->sale_price}}"
-                                        disabled 
-                                        {{-- x-on:change.prevent="($evt) => {
-                                            $wire.updatePrice(@js($sale->inventory_id), $evt.target.value);
-                                        }"  --}}
+                                        x-ref="{{$key}}-price-field"
+                                        x-model.lazy="price"
+                                        min="1" 
                                     />
                                 
                                     <x-slot name="suffix">
                                         <x-filament::icon-button
                                             icon="heroicon-o-arrow-path"
                                             color="gray" 
-                                            wire:click='resetPrice({{$sale->inventory->id}})'/>
+                                            x-on:click="async () => {
+                                                $refs['{{$key}}-price-field'].value  = await $wire.resetPrice({{$sale->inventory->id}});
+                                            }"/>
                                     </x-slot>
                                 </x-filament::input.wrapper>
                             </div>
@@ -192,15 +204,15 @@
             {{-- info --}}
             @if ($this->orderItems->count() > 0)
                 <aside class="flex-1 shrink-0 min-w-max">
-                        <div class="space-y-4 p-4">
-                            <p class="flex-1 font-light text-gray-500 text-sm">Order breakdown</p>
+                        <div class="p-4 space-y-4">
+                            <p class="flex-1 text-sm font-light text-gray-500">Order breakdown</p>
                             <div class="flex gap-4">
                                 <span>Total</span> 
                                 <x-filament::badge color="info">
                                     {{$this->orderItems->sum('quantity')}} items
                                 </x-filament::badge>
                             </div>
-                            <span style="font-size: 1.75rem" class=" font-semibold ">₦ {{$this->orderItems->sum(function($item){
+                            <span style="font-size: 1.75rem" class="font-semibold ">₦ {{$this->orderItems->sum(function($item){
                                 return $item->quantity * $item->sale_price;
                             })}}</span>
                         </div>
