@@ -19,6 +19,6 @@
     },
     "dependencies": {
         "@ericblade/quagga2": "^1.8.4",
-        "jspdf-html2canvas": "^1.5.2"
+        "html2pdf.js": "^0.9.0"
     }
 }

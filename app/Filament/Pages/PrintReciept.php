@@ -43,8 +43,8 @@ class PrintReciept extends Page
     {
         return [
             Action::make('print')->icon('heroicon-o-printer')->color(Color::Blue)->action(fn () => $this->dispatch('print-file'))->hidden(true),
+            Action::make('download')->icon('heroicon-o-cloud-arrow-down')->color(Color::Fuchsia)->action(fn () => $this->dispatch('download-file'))->hidden(false),
             Action::make('share')->icon('heroicon-o-share')->color(Color::Green)->action(fn () => $this->dispatch('share-file')),
-            Action::make('download')->icon('heroicon-o-cloud-arrow-down')->color(Color::Fuchsia)->action(fn () => $this->dispatch('download-file'))->hidden(true),
         ];  
     }
 

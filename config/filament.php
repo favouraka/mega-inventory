@@ -86,4 +86,8 @@ return [
 
     'livewire_loading_delay' => 'default',
 
+    'stylesheets' => [
+        '/resources/css/print.css'
+    ]
+
 ];
