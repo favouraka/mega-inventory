@@ -6,7 +6,7 @@
                 // console.log(this.fileString, 'String PDF starters')
                 if(navigator.canShare){
                     let file;
-                    fetch(this.fileSring)
+                    fetch(this.fileString)
                         .then(res => res.blob())
                         .then(blob => {
                             file = new File([blob], 'Dannalis_payment_reciept_'+Date.now()+'.pdf',{ type: 'application/pdf' })
