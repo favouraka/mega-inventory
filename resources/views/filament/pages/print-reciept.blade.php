@@ -11,7 +11,7 @@
                             const file = new File([blob], `Dannalis_payment_receipt_${Date.now()}.pdf`, { type: 'application/pdf' });
                             navigator.share({
                                 title: 'Dannalis Global Resources',
-                                text: `Receipt for ${this.$wire.order.customer_name}`,
+                                text: `Dannalis Global Resources Receipt `,
                                 files: [file]
                             }).catch(error => console.error('Error sharing:', error));
                         })
