@@ -5,19 +5,17 @@
             userShare: function(){
                 console.log(this.fileString, 'String PDF starters')
                 if (navigator.canShare) {
-                    const byteCharacters = atob(this.fileString.split(',')[1]);
-                    const byteNumbers = new Array(byteCharacters.length);
-                    for (let i = 0; i < byteCharacters.length; i++) {
-                        byteNumbers[i] = byteCharacters.charCodeAt(i);
-                    }
-                    const byteArray = new Uint8Array(byteNumbers);
-                    const blob = new Blob([byteArray], {type: 'application/pdf'});
-                    const file = new File([blob], `Dannalis_payment_receipt_${Date.now()}.pdf`, { type: 'application/pdf' });
-                    navigator.share({
-                        title: 'Dannalis Global Resources',
-                        text: `Receipt for ${$wire.order.customer_name}`,
-                        files: [file]
-                    }).catch(error => console.error('Error sharing:', error));
+                    fetch(this.fileString)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const file = new File([blob], `Dannalis_payment_receipt_${Date.now()}.pdf`, { type: 'application/pdf' });
+                            navigator.share({
+                                title: 'Dannalis Global Resources',
+                                text: `Receipt for ${$wire.order.customer_name}`,
+                                files: [file]
+                            }).catch(error => console.error('Error sharing:', error));
+                        })
+                        .catch(error => console.error('Error fetching file:', error));
                 } else {
                     console.warn('Web Share API is not supported in this browser.');
                 }
