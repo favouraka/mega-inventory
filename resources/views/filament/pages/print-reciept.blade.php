@@ -3,7 +3,7 @@
         x-data="{
             fileString: null,
             userShare: function(){
-                // console.log(this.fileString, 'String PDF starters')
+                console.log(this.fileString, 'String PDF starters')
                 if(navigator.canShare){
                     let file;
                     fetch(this.fileString)
@@ -12,7 +12,7 @@
                             file = new File([blob], 'Dannalis_payment_reciept_'+Date.now()+'.pdf',{ type: 'application/pdf' })
                             navigator.share({
                                 title: 'Dannalis Global Resources',
-                                text: `Reciept for`+@js($this->order->customer_name),
+                                text: 'Reciept for{{$this->order->customer_name}}',
                                 files: [file]
                             })
                         })
