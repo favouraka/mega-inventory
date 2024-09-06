@@ -86,7 +86,7 @@ class PrintReciept extends Page
 
         // Add store logo
         //
-        $pdf->Image(asset('storage/'.$this->order->store->logo), 10, 10, 30);
+        $pdf->Image(asset('storage/'.$this->order->store->logo), 10, 10, 0, 30);
 
         // Add space after the logo
         $pdf->Ln(20);
