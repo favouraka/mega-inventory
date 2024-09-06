@@ -1,24 +1,30 @@
 <x-filament-panels::page>
     <div
         x-data="{
-            userShare: function($event){
-                // console.log(this.pdfUriString, 'String PDF starters')
+            fileString: null,
+            userShare: function(){
+                // console.log(this.fileString, 'String PDF starters')
                 if(navigator.canShare){
                     let file;
-                    fetch($event.detail.fileString)
+                    fetch(this.fileSring)
                         .then(res => res.blob())
                         .then(blob => {
-                            file = new File([blob], 'Dannalis_payment_reciept_'+Date.now()+'.pdf',{ type: 'application/pdf' });
+                            file = new File([blob], 'Dannalis_payment_reciept_'+Date.now()+'.pdf',{ type: 'application/pdf' })
                             navigator.share({
                                 title: 'Dannalis Global Resources',
-                                text: `Reciept `+@js($this->order->customer_name),
+                                text: `Reciept for`+@js($this->order->customer_name),
                                 files: [file]
-                            });
-                        });
+                            })
+                        })
                 }
             },
+
         }"
-        x-on:share-file.window="$dispatch('open-modal', { id: 'share-modal' })"
+        x-on:share-file.window="($event) => {
+                fileString = $event.detail.fileString;
+                $dispatch('open-modal', { id: 'share-modal' });
+            }"
+
         x-on:download-file.window="downloadFile"
         class="flex flex-col max-w-lg gap-8 p-4 border rounded-md"
         x-ref="documentArea">

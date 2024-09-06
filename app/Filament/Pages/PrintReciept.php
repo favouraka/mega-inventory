@@ -184,6 +184,6 @@ class PrintReciept extends Page
     protected function shareReceipt()
     {
         $pdfContent = $this->generateRecieptPDF();
-        $this->dispatch('share-receipt', fileString: base64_encode($pdfContent));
+        $this->dispatch('share-file', fileString: base64_encode($pdfContent));
     }
 }
