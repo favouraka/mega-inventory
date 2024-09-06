@@ -5,7 +5,7 @@
             userShare: function(){
                 console.log(this.fileString, 'String PDF starters')
                 if (navigator.canShare) {
-                    fetch(this.fileString)
+                    fetch('data:application/pdf;base64,'+this.fileString)
                         .then(response => response.blob())
                         .then(blob => {
                             const file = new File([blob], `Dannalis_payment_receipt_${Date.now()}.pdf`, { type: 'application/pdf' });
